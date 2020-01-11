@@ -1,0 +1,40 @@
+{% extends 'layout.njk' %}
+
+{% block link %}
+    <a class="links" href="/sobre">Sobre</a>
+    <a class="links pag" href="/receitas">Receitas</a>
+{% endblock %}
+
+{% block content %}
+
+<section class="menu">
+
+{% for receita in receitas %}
+
+    <div class="receita" id="{{receita.title}}">
+        <div class="img-prato">
+            <img src="{{receita.image}}" alt="{{receita.title}}">
+        </div>
+        <div class="prato-autor">
+            <p class="prato">{{receita.title}}</p>
+            <p class="autor">{{receita.author}}</p>
+        </div>
+    </div>
+{% endfor %}
+
+{% for receita in receitas %}
+
+    <div class="receita" id="{{receita.title}}">
+        <div class="img-prato">
+            <img src="{{receita.image}}" alt="{{receita.title}}">
+        </div>
+        <div class="prato-autor">
+            <p class="prato">{{receita.title}}</p>
+            <p class="autor">{{receita.author}}</p>
+        </div>
+    </div>
+{% endfor %}
+
+</section>
+    
+{% endblock %}
