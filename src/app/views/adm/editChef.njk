@@ -1,0 +1,63 @@
+{% extends "cab.njk" %}
+
+{% block content2 %}
+
+<section class="formularioChef">
+    
+    <h1>Editar Chef</h1>
+
+    <form action="/adm?_method=PUT" method="post">
+
+        <div class="item">
+            <div>Foto</div>
+            <div>
+                <input
+                    type="url"
+                    name="avatar_url"
+                    placeholder="http://"
+                    value= "{{chef.avatar_url}}"
+                >
+            </div>
+        </div>
+        
+        <div class="item">
+            <div>Nome do Chef</div>
+            <div>
+                <input
+                    type="text"
+                    name="nome"
+                    value= "{{chef.nome}}"
+                >
+            </div>
+        </div>
+
+        <div class="button">
+            <button type="submit">Salvar</button>
+        </div>
+
+        <input type="hidden" name="id" value={{chef.id}}>
+
+    </form>
+
+    <form id="form-delete" action="/adm?_method=DELETE" method="post">
+        <div class="button">
+            <input type="hidden" name="id" value="{{chef.id}}">
+            <button type="submit">Deletar</button>
+        </div>
+    </form>
+
+</section>
+
+<script>
+        
+    const formDelete = document.querySelector('#form-delete')
+    formDelete.addEventListener('submit', function(event) {
+        const confirmation = confirm('Deseja Deletar?')
+        if (!confirmation) {
+            event.preventDefault()
+        }
+    })
+
+</script>
+
+{% endblock %}

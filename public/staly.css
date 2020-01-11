@@ -107,6 +107,7 @@ h2 {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     gap: 20px;
+    margin-bottom: 30px;
 }
 
 .receita {
@@ -116,7 +117,6 @@ h2 {
 .img-prato img{
     width: 100%;
     border-radius: 15px;
-    height: 140px;
 }
 
 .prato {
@@ -125,6 +125,7 @@ h2 {
     text-align: left;
     padding-top: 10px;
     padding-bottom: 5px;
+    margin-top: 0;
 }
 
 .autor {
@@ -242,6 +243,7 @@ h5 {
     font-size: 12px;
     margin: 0;
     padding: 0;
+    width: 60px;
 }
 
 .ind {
@@ -340,6 +342,11 @@ h5 {
     margin: 0 auto
 }
 
+.cabe2 .cabeçalho2 .cablink {
+    color: white;
+    padding-left: 20px;
+}
+
 .cabAdm {
     font-size: 26px;
     opacity: 100%;
@@ -387,7 +394,7 @@ h5 {
     text-align: center;
 }
 
-#criarReceita {
+#criarReceita, #criarChef {
     color: white;
     background-color: rgb(201, 31, 31);
     border-radius: 5px;
@@ -400,7 +407,7 @@ h5 {
 
 /* editar receita */
 
-.formularioReceita {
+.formularioReceita, .formularioChef {
     max-width: 940px;
     margin: 0 auto;
     height: 100%;
@@ -419,7 +426,7 @@ h5 {
     margin: 0 auto;
 }
 
-input {
+input, select {
     width: 100%;
     outline: none;
     padding-top: 5px;
@@ -431,7 +438,7 @@ input {
     margin-bottom: 6px;
 }
 
-.item, #ingredients {
+.item, #ingredients, #preparation {
     font-size: 16px;
     color: var(--color-text);
     font-weight: bold;
@@ -449,4 +456,165 @@ input {
     text-decoration: none;
     box-shadow: 3px 1px 6px -4px black;
     cursor: pointer;
+}
+
+/* show chef */
+
+.chefShow {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    max-width: 940px;
+    width: 100%;
+    margin: 0 auto;
+    justify-content: center;
+    margin-top: 32px;
+}
+
+.chefShow h2 {
+    padding: 0;
+}
+
+.buttonChef {
+    text-align: center;
+}
+
+.chefImg {
+    max-width: 940px;
+    width: 100%;
+    margin: 0 auto;
+    margin-top: 20px;
+    text-align: center;
+}
+.chefImg img {
+    border-radius: 50%;
+    width: 200px;
+    height: 200px;
+}
+
+.chefImg h2 {
+    font-size: 32px;
+}
+
+.chefImg p {
+    margin: 0;
+    padding: 0;
+    color: var(--color-autor);
+}
+
+.receitasDosChefs h2{
+    width: 940px;
+    width: 100%;
+    margin: 0 auto;
+    display: none;
+}
+
+
+/* paginação */
+
+.centralizar {
+    margin: 0 auto;
+    width: 940px;
+    max-width: 100%;
+    position: relative;
+}
+
+.centralizar .pagination {
+    margin: 0 auto;
+    text-align: center;
+}
+
+.pagination a {
+    color: #111111;
+    border-radius: 2px;
+    background-color: var(--color-autor);
+    padding: 3px;
+    margin-left: 5px;
+}
+
+.pagination a:hover {
+    filter: brightness(0.9);
+    border-bottom: 1px solid var(--primary-color);
+}
+
+/* pagina para ver os chefs */
+
+.editAdm .editChef {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    box-shadow: 3px 1px 6px -4px black;
+}
+
+.editChef .img-fotoChef img{
+    width: 100%;
+    height: 100px;
+    border-radius: 15px;
+}
+.editChef .dados-chef {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    align-items: center;
+}
+
+.editChef .dados-chef p {
+    padding: 5px;
+    margin: 0;
+}
+
+.editChef .dados-chef a {
+    text-decoration: none;
+    color: var(--color-text);
+    padding: 5px;
+}
+
+/* filter */
+
+.filter {
+    width: 200px;
+}
+form {
+    width: 300px;
+    margin: 0;
+}
+
+/* pag chefs */
+.menu2 {
+    max-width: 940px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 20px;
+    margin-top: 56px;
+    position: relative;
+}
+
+.amostraChefs {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    cursor: pointer	;   
+}
+
+.amostraChefs .img-fotoChef img {
+    width: 100%;
+    height: 100px;
+    border-radius: 50%;
+}
+
+.amostraChefs .dados-chef p {
+    margin: 0;
+    margin-left: 6px;
+    align-items: center;
+    padding-top:  5px;
+    padding-bottom: 5px;
+}
+
+.amostraChefs .dados-chef .nomeDoChef {
+    font-size: 18px;
+    color: var(--color-text);
+    font-weight: bold;
+}
+
+.amostraChefs .dados-chef .totalReceitas {
+    font-size: 14px;
+    color: var(--color-autor);
 }

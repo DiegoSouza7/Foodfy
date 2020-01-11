@@ -1,0 +1,28 @@
+{% extends "layout.njk" %}
+
+{% block link %}
+    <a class="links" href="/sobre">Sobre</a>
+    <a class="links" href="/receitas">Receitas</a>
+    <a class="links pag" href="/chefs">Chefs</a>
+{% endblock %}
+
+{% block content %}
+
+<section class="menu2">
+
+{% for chef in chefs %}
+
+<div class="amostraChefs" id="{{chef.id}}">
+    <div class="img-fotoChef">
+        <img src="{{chef.avatar_url}}" alt="imagem de {{chef.nome}}">
+    </div>
+    <div class="dados-chef">
+        <p class="nomeDoChef">{{chef.nome}}</p>
+        <p class="totalReceitas">{{chef.total}} Receitas</p>
+    </div>
+</div>
+{% endfor %}
+
+</section>
+
+{% endblock %}

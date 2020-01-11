@@ -11,7 +11,7 @@
             </div>
             <div class="prato-autorAdm">
                 <p class="prato">{{receita.title}}</p>
-                <p class="autor">{{receita.author}}</p>
+                <p class="autor">Por {{receita.autor}}</p>
                 <a href="/adm/{{ receita.id }}">Visualizar</a>
             </div>
         </div>
@@ -20,6 +20,5 @@
 <div class="button">
     <a href="/adm/create" id="criarReceita">Criar Receita</a>
 </div>
-
 
 {% endblock content2 %}

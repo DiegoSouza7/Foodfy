@@ -1,4 +1,12 @@
-<div class="item">
+{% extends "cab.njk" %}
+
+{% block content2 %}
+
+<form action="/adm" method="post">
+<section class="createform">
+    <h2>Criar receita</h2>
+    
+    <div class="item">
     <div>Imagem</div>
     <div>
         <input
@@ -23,11 +31,13 @@
 <div class="item">
 <div>Autor</div>
     <div>
-        <input
-            type="text"
-            name="author"
-            value= "{{receita.author}}"
-        >
+        <select name="autor">
+            {% for chef in chefOptions %}
+            <option value="{{chef.id}}"{% if receita.chef_id == chef.id %}selected {% endif %}>
+                {{chef.nome}}
+            </option>
+            {% endfor %}
+        </select>
     </div>
 </div>
 
@@ -36,8 +46,8 @@
     <div class="ingredient">
         <input
             type="text"
-            name="ingredients[]"
-            value= "{{receita.ingredients}}"
+            name="ingredients"
+            value= "{{ingredient}}"
             placeholder="Ingrediente"
         >
     </div>
@@ -49,8 +59,8 @@
     <div class="prepara">
         <input
             type="text"
-            name="preparation[]"
-            value= "{{receita.preparation}}"
+            name="preparation"
+            value= "{{passo}}"
             placeholder="Passo"
         >
     </div>
@@ -110,3 +120,7 @@ function addPreparation() {
 document.querySelector('.add-ingredient').addEventListener('click', addIngredient)
 document.querySelector('.add-prepara').addEventListener('click', addPreparation)
 </script>
+
+</section>
+</form>
+{% endblock content2 %}

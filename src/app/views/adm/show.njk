@@ -8,7 +8,7 @@
 
     <div class="titleReceita">
         <h1>{{receita.title}}</h1>
-        <p>{{receita.author}}</p>
+        <p>{{receita.autor}}</p>
     </div>
 
     <div class="receitaIngredientes">
@@ -18,7 +18,7 @@
                 <p class= 'closeModal'>ESCONDER</p>
             </div>
             <div class="edit">
-                {% for ingrediente in receita.ingredients %} 
+                    {% for ingrediente in receita.ingredients %} 
                     <li>{{ingrediente}};</li>
                 {% endfor %}
             </div>
@@ -30,8 +30,8 @@
                 <p class= 'closeModal2'>ESCONDER</p>
             </div>
             <div class="edit2">
-                {% for passo in receita.preparation %} 
-                    <li>{{passo}}</li>
+                {% for passo in receita.preparation %}
+                    <li>{{passo}};</li>
                 {% endfor %}
             </div>
         </div>

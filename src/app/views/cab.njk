@@ -9,10 +9,20 @@
         <header class="cabe2">
             <div class="cabeçalho2">
                 <a href="/adm" class="cabAdm">Foodfy</a>
+                <a href="/adm" class="cablink">Receitas</a>
+                <a href="/adm/chefs" class="cablink">Chefs</a>
             </div>
         </header>
 
         {% block content2 %}{% endblock %}
+
+        <div class="centralizar">
+            <div class="pagination"
+            data-page={{pagination.page}}
+            data-total={{pagination.total}}
+            data-filter={{filter}}
+            ></div>
+        </div>
 
         <footer>
             <h3>Todos direitos reservados, receitas Foodfy.</h3>

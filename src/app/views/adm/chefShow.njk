@@ -1,0 +1,37 @@
+{% extends "cab.njk" %}
+
+{% block content2 %}
+
+<div class="chefShow">
+    <h2>Chef: {{chef.nome}}</h2>
+    <div class="buttonChef">
+        <a href="/adm/chefs/{{chef.id}}/edit" class="editar">Editar Chef</a>
+    </div>
+</div>
+
+<div class="chefImg">
+    <img src="{{chef.avatar_url}}" alt="imagem de {{chef.nome}}">
+    <h2>{{chef.nome}}</h2>
+    <p>{{chef.total}} Receitas</p>
+</div>
+<div class="receitasdosChefs">
+    <h2>Receitas</h2>
+</div>
+
+<section class="editAdm">
+    {% for receita in receitas %}
+        <div class="editReceita" id="{{receita.id}}">
+            <div class="img-pratoAdm">
+                <img src="{{receita.image}}" alt="{{receita.title}}">
+            </div>
+            <div class="prato-autorAdm">
+                <p class="prato">{{receita.title}}</p>
+                <p class="autor">Por {{receita.autor}}</p>
+                <a href="/adm/{{ receita.id }}">Visualizar</a>
+            </div>
+        </div>
+    {% endfor %}
+</section>
+
+
+{% endblock %}

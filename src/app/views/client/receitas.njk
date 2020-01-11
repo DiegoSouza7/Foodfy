@@ -3,6 +3,17 @@
 {% block link %}
     <a class="links" href="/sobre">Sobre</a>
     <a class="links pag" href="/receitas">Receitas</a>
+    <a class="links" href="/chefs">Chefs</a>
+    <form action="/receitas" method="get">
+        <input 
+            class="filter"
+            type="text"
+            name="filter"
+            placeholder="Nome da receita ou do chef"
+            value="{{filter}}"
+        >
+        <button type="submit">Filtrar</button>
+    </form>
 {% endblock %}
 
 {% block content %}
@@ -13,11 +24,11 @@
 
     <div class="receita" id="{{receita.id}}">
         <div class="img-prato">
-            <img src="{{receita.image}}" alt="Triplo bacon burger">
+            <img src="{{receita.image}}" alt="imagem de {{receita.title}}">
         </div>
         <div class="prato-autor">
             <p class="prato">{{receita.title}}</p>
-            <p class="autor">{{receita.author}}</p>
+            <p class="autor">Por {{receita.autor}}</p>
         </div>
     </div>
 {% endfor %}

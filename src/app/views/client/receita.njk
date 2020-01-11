@@ -13,7 +13,7 @@
 
     <div class="titleReceita">
         <h1>{{receita.title}}</h1>
-        <p>{{receita.author}}</p>
+        <p>{{receita.autor}}</p>
     </div>
 
     <div class="receitaIngredientes">
@@ -36,7 +36,7 @@
             </div>
             <div class="edit2">
                 {% for passo in receita.preparation %} 
-                    <li>{{passo}}</li>
+                    <li>{{passo}};</li>
                 {% endfor %}
             </div>
         </div>
