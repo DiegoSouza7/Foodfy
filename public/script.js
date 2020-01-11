@@ -6,10 +6,10 @@ const closeModal3 = document.querySelector('.closeModal3')
 for (let receita of receitas) {
     receita.addEventListener('click', function() {
         const receitaId = receita.getAttribute('id')
-        window.location.href = `/receita?id=${receitaId}`
+        window.location.href = `/receita${receitaId}`
+        console.log(receitaId)
     })
 }
-
 
 closeModal.addEventListener("click", function() {
     if (closeModal.innerHTML === "ESCONDER") {
@@ -40,3 +40,4 @@ closeModal3.addEventListener("click", function() {
         closeModal3.innerHTML = "ESCONDER"
     }
 })
+

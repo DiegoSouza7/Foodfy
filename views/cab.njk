@@ -1,26 +1,18 @@
 <!DOCTYPE html>
 <html>
     <head>
-        {% block head %}
         <title>Foodfy</title>
-        {% endblock %}
         <link rel="stylesheet" href="/staly.css">
         <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
     </head>
     <body>
-        <header>
-            <div class="cabeçalho">
-                <a class="logo" href="/">
-                    <img src="./imagens/logo.png" alt="Foodfy">
-                </a>
-                {% block link %}
-                <a class="links" href="/sobre">Sobre</a>
-                <a class="links" href="/receitas">Receitas</a>
-                {% endblock %}
+        <header class="cabe2">
+            <div class="cabeçalho2">
+                <a href="/adm" class="cabAdm">Foodfy</a>
             </div>
         </header>
 
-{% block content %}{% endblock %}
+        {% block content2 %}{% endblock %}
 
         <footer>
             <h3>Todos direitos reservados, receitas Foodfy.</h3>

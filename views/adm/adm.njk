@@ -1,0 +1,25 @@
+{% extends "cab.njk" %}
+
+{% block content2 %}
+<h2>Gerenciar Receitas</h2>
+
+<section class="editAdm">
+    {% for receita in receitas %}
+        <div class="editReceita" id="{{receita.id}}">
+            <div class="img-pratoAdm">
+                <img src="{{receita.image}}" alt="{{receita.title}}">
+            </div>
+            <div class="prato-autorAdm">
+                <p class="prato">{{receita.title}}</p>
+                <p class="autor">{{receita.author}}</p>
+                <a href="/adm/{{ receita.id }}">Visualizar</a>
+            </div>
+        </div>
+    {% endfor %}
+</section>
+<div class="button">
+    <a href="/adm/create" id="criarReceita">Criar Receita</a>
+</div>
+
+
+{% endblock content2 %}

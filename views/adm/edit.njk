@@ -1,0 +1,40 @@
+{% extends "cab.njk" %}
+
+{% block content2 %}
+
+
+
+<section class="formularioReceita">
+    
+    <h1>Editar Receita</h1>
+
+    <form action="/adm?_method=PUT" method="post">
+
+        {% include 'adm/includ.njk' %}
+
+        <input type="hidden" name="id" value={{receita.id}}>
+
+    </form>
+
+    <form id="form-delete" action="/adm?_method=DELETE" method="post">
+        <div class="button">
+            <input type="hidden" name="id" value="{{receita.id}}">
+            <button type="submit">Deletar</button>
+        </div>
+    </form>
+
+</section>
+
+<script>
+        
+    const formDelete = document.querySelector('#form-delete')
+    formDelete.addEventListener('submit', function(event) {
+        const confirmation = confirm('Deseja Deletar?')
+        if (!confirmation) {
+            event.preventDefault()
+        }
+    })
+
+</script>
+
+{% endblock content2 %}
