@@ -1,49 +1,4 @@
-:root {
-    --color-pessego: #fbdfdb;
-    --color-text: #111111;
-    --color-autor: #777777;
-    --color-text-sobre: #444444;
-    --color-rodape: #999999;
-}
-
-* {
-    margin: 0;
-    padding: 0;
-    border: 0;
-}
-
-body {
-    font-family: 'Roboto', sans-serif;
-    font-weight: 400;
-}
-
-.cabeçalho {
-    max-width: 940px;
-    width: 100%;
-    margin: 0 auto;
-}
-
-.links {
-    text-decoration: none;
-    font-size: 16px;
-    color: var(--color-text);
-    padding-left: 30px;
-    margin-top: 38px;
-}
-
-.links.pag {
-    font-weight: bold;
-}
-
-a {
-    text-decoration: none;
-}
-.logo img {
-    height: 26.9px;
-    width: 90.6px;
-    margin-top: 36.1px;
-    padding-right: 122.4px;
-}
+@import "sylesTotal.css";
 
 .intro {
     color:var(--color-text);
@@ -565,16 +520,6 @@ input, select {
     text-decoration: none;
     color: var(--color-text);
     padding: 5px;
-}
-
-/* filter */
-
-.filter {
-    width: 200px;
-}
-form {
-    width: 300px;
-    margin: 0;
 }
 
 /* pag chefs */

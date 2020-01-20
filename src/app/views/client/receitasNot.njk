@@ -6,8 +6,7 @@
     <a class="links pag" href="/receitas">Receitas</a>
     <a class="links" href="/chefs">Chefs</a>
 </div>
-<div class="gridFilter">
-    <form action="/receitas" method="get" class="filterCab">
+    <form action="/receitas" method="get">
         <input 
             class="filter"
             type="text"
@@ -17,25 +16,11 @@
         >
         <button type="submit">Filtrar</button>
     </form>
-</div>
 {% endblock %}
 
 {% block content %}
 
 <section class="menu">
-
-{% for receita in receitas %}
-
-    <div class="receita" id="{{receita.id}}">
-        <div class="img-prato">
-            <img src="{{receita.image}}" alt="imagem de {{receita.title}}">
-        </div>
-        <div class="prato-autor">
-            <p class="prato">{{receita.title}}</p>
-            <p class="autor">Por {{receita.autor}}</p>
-        </div>
-    </div>
-{% endfor %}
 
 </section>
 

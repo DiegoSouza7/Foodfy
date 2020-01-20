@@ -1,0 +1,19 @@
+:root {
+    --color-pessego: #fbdfdb;
+    --color-text: #111111;
+    --color-autor: #777777;
+    --color-text-sobre: #444444;
+    --color-rodape: #999999;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+}
+

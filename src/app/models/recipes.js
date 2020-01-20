@@ -63,7 +63,8 @@ module.exports = {
             OR chefs.nome ILIKE '%${filter}%'
             `
             totalQuery = `(
-                SELECT COUNT(*) FROM receitas
+                SELECT COUNT(*) FROM receitas LEFT JOIN chefs 
+                ON (receitas.chef_id = chefs.id)
                 ${filterQuery}
             ) AS total`
         }

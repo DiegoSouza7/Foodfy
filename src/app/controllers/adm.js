@@ -104,7 +104,7 @@ module.exports = {
     },
     post(req, res) {
         const keys = Object.keys(req.body)
-        campos = 0
+        let campos = 0
     
         for(key of keys) {
             if (req.body[key] == '') {
@@ -143,14 +143,12 @@ module.exports = {
         }
     },
     delete(req, res) {
-
-        Receita.delete(req.body.id, function() {
-                return res.redirect('/adm')
+        console.log(req.body)
+        Receita.delete(req.body.id, function() {              
         })
-
         Chef.delete(req.body.id, function() {
-            return res.redirect('/adm')
         })
-
+        
+        return res.redirect('/adm')
     }
 }

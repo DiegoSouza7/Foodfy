@@ -40,14 +40,20 @@ module.exports = {
                 limit,
                 offset,
                 callback(receitas) {
-    
-                    const pagination = {
-                        total: Math.ceil(receitas[0].total / limit),
-                        page
-                    }
-                    return res.render('client/receitas', {receitas, pagination, filter})
-                }
+                    
+                    if (receitas.length == 0) {
+                        return res.render('client/receitasNot')
+                    } else {
+                        const pagination = {
+                            total: Math.ceil(receitas[0].total / limit),
+                            page
+                        }
+                        
+                        return res.render('client/receitas', {receitas, pagination, filter})
+                    }                    
+                }                
             }
+            
             Receita.paginate(params)
     },
     sobre(req, res) {

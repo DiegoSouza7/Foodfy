@@ -1,3 +1,4 @@
+const currentPage = location.pathname
 const receitas = document.querySelectorAll('.receita')
 const closeModal = document.querySelector('.closeModal')
 const closeModal2 = document.querySelector('.closeModal2')
@@ -81,6 +82,7 @@ function paginate(selectedPage, totalPages) {
             oldPage = currentPage
         }
     }
+
     return pages
 }
 
@@ -89,7 +91,7 @@ function createpagination(pagination) {
     const page = +pagination.dataset.page
     const total = +pagination.dataset.total
     const pages = paginate(page, total)
-
+    
     let elements = ''
 
     for (let page of pages) {
