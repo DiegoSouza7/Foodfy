@@ -1,291 +1,7 @@
 @import "sylesTotal.css";
 
-.intro {
-    color:var(--color-text);
-    background: var(--color-pessego);
-    max-width: 940px;
-    height: 366px;
-    width: 100%;
-    margin: 0 auto;
-    border-radius: 30px;
-    margin-top: 36px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-}
 
-h1 {
-    font-size: 32px;
-    opacity: 100%;
-    color: var(--color-text);
-    font-weight: 700;
-    padding-left: 60px;
-    padding-top: 117px;
-    padding-bottom: 5px;
-}
-
-h2 {
-    font-size: 24px;
-    opacity: 100%;
-    color: var(--color-text);
-    font-weight: 700;
-    max-width: 940px;
-    width: 100%;
-    margin: 0 auto;
-    padding-top: 50px;
-    padding-bottom: 20px;
-}
-
-.descri {
-    font-size: 18px;
-    opacity: 70%;
-    color: var(--color-text);
-    font-weight: 400;
-    max-width: 316px;
-    width: 100%;
-    padding-bottom:  117px;
-    padding-top: 5px;
-    padding-left: 60px;
-}
-
-.chef {
-    padding-top: 66px;
-    padding-right: 100px;
-    float: right;
-}
-
-/*===MAIS ACESSADAS=== */
-
-
-.acess {
-    max-width: 940px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 20px;
-    margin-bottom: 30px;
-}
-
-.receita {
-    cursor: pointer;
-}
-
-.img-prato img{
-    width: 100%;
-    border-radius: 15px;
-}
-
-.prato {
-    font-size: 18px;
-    color: var(--color-text);
-    text-align: left;
-    padding-top: 10px;
-    padding-bottom: 5px;
-    margin-top: 0;
-}
-
-.autor {
-    font-size: 14px;
-    color: var(--color-autor);
-    text-align: left;
-    margin-top: 0px;
-    padding-bottom: 5px;
-}
-
-footer {
-    position: fixed;
-    bottom: 0;
-    background-color: #eeeeee;
-    width: 100%;
-    height: 62px;
-}
-
-h3 {
-    padding: 23px;
-    font-size: 14px;
-    color: var(--color-rodape);
-    text-align: center;
-}
-
-#sobre {
-    font-weight: bold;
-}
-
-h4 {
-    margin-top: 50px;
-    color: var(--color-text);
-    font-size: 24px;
-    font-weight: bold;
-}
-
-.textSobre {
-    max-width: 940px;
-    width: 100%;
-    margin: 0 auto;
-}
-
-p {
-    margin-top: 20px;
-    width: 100%;
-    font-size: 18px;
-    color: var(--color-text-sobre);
-}
-
-h5 {
-    margin-top: 30px;
-    color: var(--color-text);
-    font-size: 20px;
-    font-weight: bold;
-}
-
-#receitas {
-    font-weight: bold;
-}
-
-.menu {
-    max-width: 940px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 20px;
-    margin-top: 56px;
-}
-
-/* ==RECEITA== */
-
-.receitaReceita {
-    max-width: 940px;
-    margin: 0 auto;
-    padding-top: 0;
-    padding-bottom: 112px;
-}
-
-.imgReceita img {
-    border-radius: 15px;
-    margin-top: 56px;
-    width: 100%;
-    max-height: 500px;
-}
-
-.titleReceita h1 {
-    text-align: center;
-    margin-top: 50px;
-    padding: 0;
-    font-size: 36px;
-    color: #111111;
-    font-weight: bold;
-}
-.titleReceita p {
-    text-align: center;
-    margin-top: 20px;
-    padding: 0px;
-    color: #777777;
-    font-size: 20px;
-}
-
-/* ==MODAL== */
-
-.modal h2{
-    font-size: 24px;
-    font-weight: bold;
-    color: #111111;
-    padding: 0;
-    margin: 0;
-}
-
-
-.modal p {
-    color: #999999;
-    font-size: 12px;
-    margin: 0;
-    padding: 0;
-    width: 60px;
-}
-
-.ind {
-    display: grid;
-    grid-template-columns: 15% 85%;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    align-items: center;
-}
-
-.ind2 {
-    display: grid;
-    grid-template-columns: 30% 70%;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    align-items: center;
-}
-.closeModal {
-    color: #999999;
-    font-size: 12px;
-    margin: 0;
-    padding: 0;
-    cursor: pointer;
-}
-
-.closeModal2 {
-    color: #999999;
-    font-size: 12px;
-    margin: 0;
-    padding: 0;
-    cursor: pointer;
-}
-
-.closeModal3 {
-    color: #999999;
-    font-size: 12px;
-    margin: 0;
-    padding: 0;
-    cursor: pointer;
-}
-
-.edit li {
-    font-size: 18px;
-    color: #444444;
-    font-weight: 400;
-}
-
-.edit p {
-    font-size: 18px;
-    color: #444444;
-    font-weight: 400;
-}
-
-.edit {
-    margin-top: 20px;
-    margin-bottom: 20px;
-}
-
-.edit2 li {
-    font-size: 18px;
-    color: #444444;
-    font-weight: 400;
-}
-
-.edit2 p {
-    font-size: 18px;
-    color: #444444;
-    font-weight: 400;
-}
-
-.edit2 {
-    margin-top: 20px;
-    margin-bottom: 20px;
-}
-
-.edit3 p {
-    font-size: 18px;
-    color: #444444;
-    font-weight: 400;
-}
-
-.edit3 {
-    margin-top: 20px;
-    margin-bottom: 20px;
-}
-
-/* adm */
+/* cabecalho adm */
 
 .cabe2 {
     background-color: black;
@@ -294,22 +10,31 @@ h5 {
 .cabeçalho2 {
     max-width: 940px;
     width: 100%;
-    margin: 0 auto
+    margin: 0 auto;
+    height: 50px;
+    padding: 8px 0;
 }
 
-.cabe2 .cabeçalho2 .cablink {
+.cablink, .cabAdm {
     color: white;
+}
+
+.cablink {
     padding-left: 20px;
 }
 
 .cabAdm {
     font-size: 26px;
-    opacity: 100%;
-    color: white;
     font-weight: 700;
-    padding-left: 0px;
-    padding-top: 20px;
-    padding-bottom: 10px;
+}
+
+/* gerenciar receitas */
+
+.h2GerenciarRecei {
+    max-width: 940px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 50px 0 30px 0;
 }
 
 .editAdm {
@@ -332,14 +57,26 @@ h5 {
     height: 100px;
 }
 
-.prato-autorAdm p, a {
+.prato {
+    font-size: 18px;
+    text-align: left;
+    padding-top: 10px;
+    padding-bottom: 5px;
     padding-left: 5px;
     margin-top: 0;
-    padding-top: 0;
 }
 
-.prato-autorAdm a{
-    color: var(--color-text);
+.autor {
+    font-size: 14px;
+    text-align: left;
+    margin-top: 0px;
+    padding-bottom: 5px;
+    padding-left: 5px;
+    opacity: 70%;
+}
+
+.linkVisualizar {
+    padding-left: 5px;
 }
 
 .button {
@@ -457,11 +194,10 @@ input, select {
     color: var(--color-autor);
 }
 
-.receitasDosChefs h2{
+.receitasdosChefs {
     width: 940px;
-    width: 100%;
     margin: 0 auto;
-    display: none;
+    padding: 30px 0 20px 0;
 }
 
 

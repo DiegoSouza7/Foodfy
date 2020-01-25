@@ -11,16 +11,21 @@
 {% block content %}
         <section class="intro">
             <div class="textIntro">
-                <h1>As Melhores receitas</h1>
-                <p class="descri">Aprenda a contruir os melhores pratos com receitas criadas por proficionais do mundo inteiro.</p>
+                <div class="h1Asmelhores">
+                    <h1>As Melhores receitas</h1>
+                </div>
+                <div class="pAsmelhores">
+                    <p class="descri">Aprenda a contruir os melhores pratos 
+                    com receitas criadas por proficionais do mundo inteiro.</p>
+                </div>
             </div>
             <div>
                 <img class="chef" src="/imagens/chef.png" alt="chef">
             </div>
         </section>
-        
-        <h2>Mais acessadas</h2>
 
+        <h2 class="h2MaisAcess">Mais acessadas</h2>
+    
         <section class="acess">
         {% for receita in receitas %}
             <div class="receita" id="{{receita.id}}">

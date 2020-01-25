@@ -5,6 +5,7 @@ const closeModal2 = document.querySelector('.closeModal2')
 const closeModal3 = document.querySelector('.closeModal3')
 const pagination = document.querySelector('.pagination')
 const chefs = document.querySelectorAll('.amostraChefs')
+const buscandoPor = document.querySelector('.buscandoPor')
 
 for (let receita of receitas) {
     receita.addEventListener('click', function() {
@@ -91,7 +92,7 @@ function createpagination(pagination) {
     const page = +pagination.dataset.page
     const total = +pagination.dataset.total
     const pages = paginate(page, total)
-    
+
     let elements = ''
 
     for (let page of pages) {
@@ -108,6 +109,12 @@ function createpagination(pagination) {
     pagination.innerHTML = elements
 }
 
+// função mostrar o que esta sendo filtrado na busca
+
+function mostrarFiltro(buscandoPor) {
+    document.querySelector('.buscandoPor').style.display = "block"
+}
+
 if(closeModal) {
     close1(closeModal)
 }
@@ -121,5 +128,12 @@ if(closeModal3) {
 }
 
 if (pagination) {
-    createpagination(pagination)
+    if(pagination.dataset.page) {
+        if (pagination.dataset.total > 1) {
+            createpagination(pagination)
+        }
+    }
+    if (pagination.dataset.filter) {
+        mostrarFiltro(buscandoPor)
+    }
 }

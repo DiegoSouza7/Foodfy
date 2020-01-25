@@ -25,7 +25,7 @@ module.exports = {
                     return res.render('adm/adm', {receitas, pagination, filter})
                 }
             }
-    
+            
             Receita.paginate(params)
     },
     chefs(req, res) {
@@ -143,12 +143,16 @@ module.exports = {
         }
     },
     delete(req, res) {
-        console.log(req.body)
-        Receita.delete(req.body.id, function() {              
-        })
-        Chef.delete(req.body.id, function() {
-        })
+        if(req.headers.referer === `http://localhost:3000/adm/${req.body.id}/edit`) {
+            Receita.delete(req.body.id, function() {
+                return res.redirect('/adm')
+            })
+        }
         
-        return res.redirect('/adm')
+        if(req.headers.referer === `http://localhost:3000/adm/chefs/${req.body.id}/edit`) {
+            Chef.delete(req.body.id, function() {
+                return res.redirect('/adm')
+            })
+        }
     }
 }

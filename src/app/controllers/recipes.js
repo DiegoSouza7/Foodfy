@@ -31,7 +31,7 @@ module.exports = {
         let { filter, page, limit } = req.query
     
             page = page || 1
-            limit = limit || 9
+            limit = limit || 12
             let offset = limit * (page - 1)
     
             const params = {
@@ -42,7 +42,7 @@ module.exports = {
                 callback(receitas) {
                     
                     if (receitas.length == 0) {
-                        return res.render('client/receitasNot')
+                        return res.render('client/receitasNot', {filter})
                     } else {
                         const pagination = {
                             total: Math.ceil(receitas[0].total / limit),
@@ -53,7 +53,7 @@ module.exports = {
                     }                    
                 }                
             }
-            
+
             Receita.paginate(params)
     },
     sobre(req, res) {

@@ -1,7 +1,7 @@
 {% extends "cab.njk" %}
 
 {% block content2 %}
-<h2>Gerenciar Receitas</h2>
+<h2 class="h2GerenciarRecei">Gerenciar Receitas</h2>
 
 <section class="editAdm">
     {% for receita in receitas %}
@@ -12,7 +12,7 @@
             <div class="prato-autorAdm">
                 <p class="prato">{{receita.title}}</p>
                 <p class="autor">Por {{receita.autor}}</p>
-                <a href="/adm/{{ receita.id }}">Visualizar</a>
+                <a href="/adm/{{ receita.id }}" class="linkVisualizar">Visualizar</a>
             </div>
         </div>
     {% endfor %}
