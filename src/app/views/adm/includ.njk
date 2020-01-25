@@ -35,31 +35,31 @@
 
 <div id="ingredients">
 <div>Ingredientes</div>
-    <div class="ingredient">
     {% for ingredient in receita.ingredients %}
+    <div class="ingredient">
         <input
             type="text"
             name="ingredients"
             value= "{{ingredient}}"
             placeholder="Ingrediente"
         >
-    {% endfor %}
     </div>
+    {% endfor %}
 </div>
 <button type="button" class="add-ingredient">Add Ingredient</button>
 
 <div id="preparation">
 <div>Modo de Preparo</div>
-    <div class="prepara">
     {% for passo in receita.preparation %}
+    <div class="prepara">
         <input
             type="text"
             name="preparation"
             value= "{{passo}}"
             placeholder="Passo"
         >
-    {% endfor %}
     </div>
+    {% endfor %}
 </div>
 <button type="button" class="add-prepara">Add preparação</button>
 
