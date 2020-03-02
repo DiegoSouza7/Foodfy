@@ -4,16 +4,14 @@
         {% block head %}
         <title>Foodfy</title>
         {% endblock %}
-        <link rel="stylesheet" href="/staly.css">
-        <link rel="stylesheet" href="/layoutStaly.css">
-        <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
+        {% include './parts/styles.njk' %}
     </head>
     <body>
         <header>
             <div class="cabeçalho">
                 <div class="gridLogo">
                     <a class="logo" href="/">
-                        <img src="./imagens/logo.png" alt="Foodfy">
+                        <img src="/imagens/logo.png" alt="Foodfy">
                     </a>
                 </div>
                 {% block link %}{% endblock %}

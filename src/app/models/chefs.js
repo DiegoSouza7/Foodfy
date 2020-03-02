@@ -1,96 +1,97 @@
 const db = require('../../config/db')
 const {date} = require('../../lib/utils')
+const File = require('../models/File')
+const fs = require('fs')
+
 
 module.exports = {
-    all(callback) {
-        db.query(`SELECT chefs.nome, COUNT(receitas) AS receitas
-        FROM chefs LEFT JOIN receitas ON(receitas.chef_id = chefs.id)
-        GROUP BY chefs.id
-        `, function(err, results) {
-            if (err) throw `Database Error! ${err}`
-            
-            callback(results.rows)
-        })
+    all() {
+        db.query(`SELECT chefs.nome, COUNT(recipes) AS recipes
+        FROM chefs LEFT JOIN recipes ON(recipes.chef_id = chefs.id)
+        GROUP BY chefs.id`)
     },
-    find(id, callback) {
-        db.query(`SELECT chefs.*,
-        COUNT(receitas) AS total  
-        FROM chefs LEFT JOIN receitas ON
-        (chefs.id = receitas.chef_id) WHERE chefs.id = $1 
-        GROUP BY chefs.id`, [id], function(err, results) {
-            if(err) throw `Database Error ${err}`
-
-            callback(results.rows[0])
-        })
+    find(id) {
+        return db.query(`SELECT chefs.*, files.path, COUNT(recipes) AS total FROM files
+        LEFT JOIN chefs ON (files.id = chefs.file_id)
+        LEFT JOIN recipes ON (chefs.id = recipes.chef_id)
+        WHERE chefs.id = $1
+        GROUP BY chefs.id, files.path`, [id])
     },
-    findReceitasChef(id, callback) {
-        db.query(`SELECT receitas.*, chefs.nome AS autor 
-        FROM receitas LEFT JOIN chefs 
-        ON (receitas.chef_id = chefs.id)
-        WHERE receitas.chef_id = $1`, [id], function(err, results) {
-            if (err) throw `Database Error ${err}`
-
-            callback(results.rows)
-        })
+    findReceitasChef(id) {
+        return db.query(`SELECT recipes.*, chefs.name AS autor 
+        FROM recipes LEFT JOIN chefs 
+        ON (recipes.chef_id = chefs.id)
+        WHERE recipes.chef_id = $1`, [id])
     },
-    create(data, callback) {
+    create(data, fileId) {
         const query = `
             INSERT INTO chefs (
-                nome, 
-                avatar_url, 
-                created_at
+                name, 
+                file_id, 
+                updated_at
                 ) VALUES ($1, $2, $3)
                 RETURNING id
         `
 
         const values = [
-            data.nome,
-            data.avatar_url,
+            data.name,
+            fileId,
             date(Date.now()).iso
         ]
 
-        db.query(query, values, function(err, results) {
-            if(err) throw `Database Error! ${err}`
-
-            callback(results.rows[0])
-        })
+        return db.query(query, values)
     },
-    update(data, callback) {
+    update(data) {
         const query = `
             UPDATE chefs SET
-                avatar_url=($1),
-                nome=($2)
-                WHERE id = $3
+                name=($1)
+                WHERE id = $2
                 
         `
-
         const values = [
-            data.avatar_url,
-            data.nome,
+            data.name,
             data.id
         ]
 
-        db.query(query, values, function(err, results) {
-            if(err) throw `Database Error! ${err}`
-
-            callback()
-        })
+        return db.query(query, values)
     },
-    delete(id, callback) {
-        db.query(`DELETE FROM chefs WHERE id = $1`, [id], function(err, results) {
-            if(err) throw `Database Error! ${err}`
+    async delete(id) {
+        let results = await db.query(`SELECT * FROM recipes WHERE chef_id = $1`, [id])
+        let recipes = results.rows
 
-            return callback()
+        // pegar as imagens
+        const allFiles = recipes.map(recipe => File.recipeFile(recipe.id))
+        let promiseResults = await Promise.all(allFiles)
+
+        const fileChef = this.find(id)
+        const resultFileChef = (await fileChef).rows[0]
+
+
+        await db.query(`DELETE FROM files WHERE id = $1`, [resultFileChef.file_id])
+        fs.unlinkSync(resultFileChef.path)
+        await db.query(`DELETE FROM chefs WHERE id = $1`, [id])
+
+        promiseResults.map(results => {
+            results.rows.map(file => {
+                try {
+                    db.query(`DELETE FROM files WHERE id = $1`, [file.file_id])
+                    fs.unlinkSync(file.path)
+                } catch(err) {
+                    console.error(err)
+                }
+
+            })
         })
+
     },
     paginate(params) {
-        const {filter, limit, offset, callback} = params
+        const {filter, limit, offset} = params
 
         let query ='',
             filterQuery='',
-            totalQuery=`(
-                SELECT COUNT(*) FROM chefs
-            ) AS total`
+            totalQuery=`
+                COUNT(recipes)
+            AS total`
 
         if (filter) {
             filterQuery = `
@@ -103,27 +104,24 @@ module.exports = {
         }
 
         query = `
-        SELECT *, ${totalQuery}
-        FROM chefs
+        SELECT chefs.*, files.path, ${totalQuery}
+        FROM chefs LEFT JOIN files ON (chefs.file_id = files.id)
+        LEFT JOIN recipes ON (chefs.id = recipes.chef_id)
         ${filterQuery}
+        GROUP BY chefs.id, files.path
         LIMIT $1 OFFSET $2
         `
         
-        db.query(query, [limit, offset], function(err, results) {
-            if (err) throw 'Database Error!'
-
-            callback(results.rows)
-        })
+        return db.query(query, [limit, offset])
     },
-    chefs(callback) {
-        const query = `SELECT chefs.*, COUNT(receitas) AS total 
-        FROM chefs LEFT JOIN receitas ON (chefs.id = receitas.chef_id)
-        GROUP BY chefs.id`
+    chefs() {
+        let query = ``
+        
+        query = `SELECT chefs.*, files.path, COUNT(recipes) AS total FROM files
+        LEFT JOIN chefs ON (files.id = chefs.file_id)
+        LEFT JOIN recipes ON (chefs.id = recipes.chef_id)
+        GROUP BY chefs.id, files.path`
 
-        db.query(query, function(err, results) {
-            if(err) throw `Database Error ${err}`
-
-            callback(results.rows)
-        })
+        return db.query(query)
     }
 }

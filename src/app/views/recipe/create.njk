@@ -1,0 +1,143 @@
+{% extends "cab.njk" %}
+
+{% block content2 %}
+
+<form action="/adm/create" method="post" enctype="multipart/form-data">
+    <section class="createform">
+        <h2 class="create">Criar receita</h2>
+        
+    <div class="item">
+        <div>Fotos</div>
+        <div class="photos">
+            <div id="photos-upload">
+                <input 
+                    id="photos-input"
+                    type="file" 
+                    name="photos"
+                    accept="image/*"
+                    multiple
+                    onchange="PhotosUpload.handleFileInput(event)"
+
+                >
+                <i class="material-icons">add</i>
+            </div>
+            <div id="photos-preview">
+                {% if files %}
+                    {% for image in files %}
+                        <div class="photo" id="{{image.id}}">
+                            <img src="{{image.src}}" alt="{{image.name}}">
+                            <i class="material-icons"
+                                onclick="PhotosUpload.removeOldPhoto(event)"
+                            >
+                                close
+                            </i>
+                        </div>
+                    {% endfor %}
+                    <input type="hidden" name="removed_files">
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="item">
+        <div>Nome da Receita</div>
+        <div>
+            <input
+                type="text"
+                name="title"
+                value= "{{receita.title}}"
+            >
+        </div>
+    </div>
+
+    <div class="item">
+    <div>Autor</div>
+        <div>
+            <select name="autor">
+                {% for chef in chefOptions %}
+                <option value="{{chef.id}}"{% if receita.chef_id == chef.id %}selected {% endif %}>
+                    {{chef.name}}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+
+    <div id="ingredients">
+    <div>Ingredientes</div>
+        <div class="ingredient">
+            <input
+                type="text"
+                name="ingredients"
+                value= "{{ingredient}}"
+                placeholder="Ingrediente"
+            >
+        </div>
+    </div>
+    <button type="button" class="add-ingredient">Adicionar novo ingrediente</button>
+
+    <div id="preparation">
+    <div>Modo de Preparo</div>
+        <div class="prepara">
+            <input
+                type="text"
+                name="preparation"
+                value= "{{passo}}"
+                placeholder="Passo"
+            >
+        </div>
+    </div>
+    <button type="button" class="add-prepara">Adicionar novo passo</button>
+
+    <div class="item">
+    <div>Informações adicionais</div>
+        <div>
+            <textarea name="information">{{receita.information}}</textarea>
+        </div>
+    </div>
+
+    <div class="button">
+        <button type="submit">Salvar</button>
+    </div>
+
+    <script>
+    function addIngredient() {
+        const ingredients = document.querySelector("#ingredients")
+        const fieldContainer = document.querySelectorAll(".ingredient")
+        
+        // Realiza um clone do último ingrediente adicionado
+        const newField = fieldContainer[fieldContainer.length - 1].cloneNode(
+        true
+        )
+    
+        // Não adiciona um novo input se o último tem um valor vazio
+        if (newField.children[0].value == "") return false
+    
+        // Deixa o valor do input vazio
+        newField.children[0].value = "" 
+        ingredients.appendChild(newField)
+    }
+
+    function addPreparation() {
+        const prepara = document.querySelector("#preparation")
+        const fieldContainer = document.querySelectorAll(".prepara")
+        
+        // Realiza um clone do último ingrediente adicionado
+        const newField = fieldContainer[fieldContainer.length - 1].cloneNode(
+        true
+        )
+    
+        // Não adiciona um novo input se o último tem um valor vazio
+        if (newField.children[0].value == "") return false
+    
+        // Deixa o valor do input vazio
+        newField.children[0].value = "" 
+        prepara.appendChild(newField)
+    }
+
+    document.querySelector('.add-ingredient').addEventListener('click', addIngredient)
+    document.querySelector('.add-prepara').addEventListener('click', addPreparation)
+    </script>
+
+    </section>
+</form>
+{% endblock content2 %}

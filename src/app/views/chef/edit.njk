@@ -6,27 +6,15 @@
     
     <h1>Editar Chef</h1>
 
-    <form action="/adm?_method=PUT" method="post">
-
-        <div class="item">
-            <div>Foto</div>
-            <div>
-                <input
-                    type="url"
-                    name="avatar_url"
-                    placeholder="http://"
-                    value= "{{chef.avatar_url}}"
-                >
-            </div>
-        </div>
-        
+    <form action="/adm/chefs?_method=PUT" method="post">
+      
         <div class="item">
             <div>Nome do Chef</div>
             <div>
                 <input
                     type="text"
-                    name="nome"
-                    value= "{{chef.nome}}"
+                    name="name"
+                    value= "{{chef.name}}"
                 >
             </div>
         </div>
@@ -39,7 +27,7 @@
 
     </form>
 
-    <form id="form-delete" action="/adm?_method=DELETE" method="post">
+    <form id="form-delete" action="/adm/chefs?_method=DELETE" method="post">
         <div class="button">
             <input type="hidden" name="id" value="{{chef.id}}">
             <button type="submit">Deletar</button>

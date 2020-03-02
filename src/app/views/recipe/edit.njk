@@ -6,15 +6,15 @@
     
     <h1>Editar Receita</h1>
 
-    <form action="/adm?_method=PUT" method="post">
+    <form action="/adm/create?_method=PUT" method="post" enctype="multipart/form-data">
 
-        {% include 'adm/includ.njk' %}
+        {% include 'recipe/includ.njk' %}
 
         <input type="hidden" name="id" value={{receita.id}}>
 
     </form>
 
-    <form id="form-delete" action="/adm?_method=DELETE" method="post">
+    <form id="form-delete" action="/adm/recipe?_method=DELETE" method="post">
         <div class="button">
             <input type="hidden" name="id" value="{{receita.id}}">
             <button type="submit">Deletar</button>

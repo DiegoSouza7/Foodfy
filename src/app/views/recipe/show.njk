@@ -2,8 +2,28 @@
 
 {% block content2 %}
 <section class='receitaReceita'>
-    <div class="imgReceita">
-        <img src="{{receita.image}}" alt="imagem de {{receita.title}}">
+    <div class="gallery">
+        <div class="highlight">
+            {% if not receita %}
+                <img src="http://placehold.it/500x500?text=PRODUTO SEM FOTO">
+            {% else %}
+               <img 
+                    src="{{receita.file[0]}}" 
+                    alt="{{receita.title}}"
+                >
+            {% endif %}
+        </div>
+        <div class="gallery-preview">
+            {% for image in receita.file %}
+                <img 
+                    src="{{image}}" 
+                    {% if loop.index0 == 0 %}
+                    class="active"
+                    {% endif %}
+                    onclick="ImageGallery.setImage(event)"
+                >
+            {% endfor %}
+        </div>
     </div>
 
     <div class="titleReceita">

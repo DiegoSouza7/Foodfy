@@ -1,0 +1,13 @@
+{% extends "cab.njk" %}
+
+{% block content2 %}
+
+<form action="/adm/chefs/create" method="post" enctype="multipart/form-data">
+<section class="createform">
+    <h2 class="create">Criar Chef</h2>
+    
+    {% include 'chef/includ.njk' %}
+
+</section>
+</form>
+{% endblock content2 %}

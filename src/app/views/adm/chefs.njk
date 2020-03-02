@@ -6,16 +6,16 @@
     {% for chef in chefs %}
         <div class="editChef" id="{{chef.id}}">
             <div class="img-fotoChef">
-                <img src="{{chef.avatar_url}}" alt="{{chef.nome}}">
+                <img src="{{chef.path}}" alt="{{chef.name}}">
             </div>
             <div class="dados-chef">
-                <p class="nomeDoChef">{{chef.nome}}</p>
+                <p class="nomeDoChef">{{chef.name}}</p>
                 <a href="/adm/chefs/{{ chef.id }}">Visualizar</a>
             </div>
         </div>
     {% endfor %}
 </section>
 <div class="button">
-    <a href="/adm/createChef" id="criarChef">Criar Chef</a>
+    <a href="/adm/chefs/create" id="criarChef">Criar Chef</a>
 </div>
 {% endblock %}

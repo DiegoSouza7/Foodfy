@@ -3,12 +3,12 @@
 {% block content %}
 
 <div class="chefShow">
-    <h2>Chef: {{chef.nome}}</h2>
+    <h2>Chef: {{chef.name}}</h2>
 </div>
 
 <div class="chefImg">
-    <img src="{{chef.avatar_url}}" alt="imagem de {{chef.nome}}">
-    <h2>{{chef.nome}}</h2>
+    <img src="{{chef.path}}" alt="imagem de {{chef.name}}">
+    <h2>{{chef.name}}</h2>
     <p>{{chef.total}} Receitas</p>
 </div>
 <div class="receitasdosChefs">
@@ -19,7 +19,7 @@
     {% for receita in receitas %}
         <div class="editReceita" id="{{receita.id}}">
             <div class="img-pratoAdm">
-                <img src="{{receita.image}}" alt="{{receita.title}}">
+                <img src="{{receita.file}}" alt="{{receita.title}}">
             </div>
             <div class="prato-autorAdm">
                 <p class="prato">{{receita.title}}</p>
