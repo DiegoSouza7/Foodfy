@@ -1,0 +1,46 @@
+{% extends "cab.njk" %}
+
+{% block content2 %}
+<form action="/adm/users/create" method="post">
+<div class="controllerAdm">
+    <div class="h2Controller">
+        <h2>Criar Usuário</h2>
+    </div>
+    <div class="button">
+        <button type="submit">Salvar</button>
+        <a href="/adm/users" id="cancel">Cancelar</a>
+    </div>
+</div>
+<section class="showUser">
+    <div class="item">
+        <div>Nome</div>
+        <div>
+            <input
+                type="text"
+                name="name"
+                placeholder="nome"
+                value= "{{user.name}}"
+            >
+        </div>
+    </div>
+    </div>
+    <div class="item">
+        <div>Email</div>
+        <div>
+            <input
+                type="email"
+                name="email"
+                placeholder="email"
+                value= "{{user.email}}"
+                onblur="Validate.apply(this, 'isEmail')"
+            >
+        </div>
+    </div>
+    <div class="item">
+        <input type="checkbox" name="isAdm"> Administrador
+    </div>
+</section>
+</form>
+
+
+{% endblock content2 %}

@@ -1,7 +1,16 @@
 {% extends "cab.njk" %}
 
 {% block content2 %}
-<h2 class="h2GerenciarRecei">Gerenciar Chefs</h2>
+
+<div class="controllerAdm">
+    <div class="h2Controller">
+        <h2>Gerenciar Chefs</h2>
+    </div>
+    <div class="button">
+        <a href="/adm/chefs/create" id="criarChef">Criar Chef</a>
+    </div>
+</div>
+
 <section class="editAdm">
     {% for chef in chefs %}
         <div class="editChef" id="{{chef.id}}">
@@ -15,7 +24,4 @@
         </div>
     {% endfor %}
 </section>
-<div class="button">
-    <a href="/adm/chefs/create" id="criarChef">Criar Chef</a>
-</div>
 {% endblock %}

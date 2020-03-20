@@ -1,38 +1,21 @@
-/* cabecalho adm */
+/* Controller recipes, chefs and users */
 
-.cabe2 {
-    background-color: black;
-    height: 50px;
-}
-.cabeçalho2 {
+.controllerAdm {
     max-width: 940px;
     width: 100%;
     margin: 0 auto;
-    height: 50px;
-    padding: 8px 0;
-}
-
-.cablink, .cabAdm {
-    color: white;
-}
-
-.cablink {
-    padding-left: 20px;
-}
-
-.cabAdm {
-    font-size: 26px;
-    font-weight: 700;
-}
-
-/* gerenciar receitas */
-
-.h2GerenciarRecei {
-    max-width: 940px;
-    width: 100%;
-    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
     padding: 50px 0 30px 0;
 }
+
+.controllerAdm .h2Controller {
+    margin-right: 0;
+    padding: 20px 0;
+}
+
+
+/* views recipes and chefs */
 
 .editAdm {
     max-width: 940px;
@@ -76,24 +59,6 @@
     padding-left: 5px;
 }
 
-.button {
-    width: 940px;
-    margin: 0 auto;
-    padding: 20px;
-    text-align: center;
-}
-
-#criarReceita, #criarChef {
-    color: white;
-    background-color: rgb(201, 31, 31);
-    border-radius: 5px;
-    padding: 6px;
-    padding-left: 12px;
-    padding-right: 12px;
-    text-decoration: none;
-    box-shadow: 3px 1px 6px -4px black;
-}
-
 /* editar receita */
 
 .formularioReceita, .formularioChef {
@@ -101,11 +66,73 @@
     margin: 0 auto;
     height: 100%;
     margin-top: 30px;
+    width: 100%;
 }
 
-.formularioReceita h1 {
+.formularioReceita h1,
+.formularioChef h1 {
     padding: 0;
     padding-bottom: 20px;
+}
+
+/* views users */
+
+.viewsUsers {
+    max-width: 940px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 100px;
+}
+
+.viewsUsers .user {
+    display: grid;
+    grid-row-end: auto;
+}
+
+.viewsUsers .user .nameUser {
+    font-size: 18px;
+    font-weight: bold;
+    padding-bottom: 5px;
+}
+
+.viewsUsers .user .userEmail {
+    font-size: 14px;
+    padding-bottom: 10px;
+    color: var(--color-autor);
+}
+
+.viewsUsers .user .actionsUser {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    align-items: center;
+}
+
+.viewsUsers .user .actionsUser .editUser {
+    color: rgb(68, 68, 228);
+    font-weight: bold;
+    font-size: 16px;
+    transition: 200ms;
+}
+
+.viewsUsers .user .actionsUser .removeUser {
+    color: rgb(201, 31, 31);
+    font-weight: bold;
+    font-size: 16px;
+    transition: 200ms;
+    background-color: white;
+    padding: 0;
+    border-radius: none;
+    box-shadow: none;
+    text-align: left;
+}
+
+.viewsUsers .user .actionsUser .editUser:hover {
+    color: rgb(5, 5, 153);
+}
+
+.viewsUsers .user .actionsUser .removeUser:hover {
+    color: rgb(255, 29, 29);
 }
 
 /* criar receita */
@@ -119,7 +146,7 @@ form .item div {
     padding-bottom: 5px;
 }
 
-input[type="text"], select, textarea {
+input[type="text"], input[type="email"], input[type="password"], select, textarea {
     width: 100%;
     outline: none;
     padding-top: 5px;
@@ -129,24 +156,6 @@ input[type="text"], select, textarea {
     border: 1px solid rgb(196, 196, 196);
     margin-top: 6px;
     margin-bottom: 6px;
-}
-
-textarea {
-    height: 150px;
-}
-
-select {
-    -moz-appearance: none;
-    -webkit-appearance: none;
-    appearance: none;
-    width: 101.5%;
-
-    background-color: #fff;
-    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23007CB2%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E'),
-      linear-gradient(to bottom, #ffffff 0%,#e5e5e5 100%);
-    background-repeat: no-repeat;
-    background-position: right .7em top 50%, 0 0;
-    background-size: .65em auto, 100%;
 }
 
 .item, #ingredients, #preparation {
@@ -162,20 +171,6 @@ button.add-ingredient, button.add-prepara {
     color: rgb(62, 120, 228);
     font-weight: bold;
     padding-bottom: 15px;
-    cursor: pointer;
-}
-
-/* show */
-
-.editar, button[type="submit"] {
-    color: white;
-    background-color: rgb(14, 12, 37);
-    border-radius: 5px;
-    padding: 6px;
-    padding-left: 12px;
-    padding-right: 12px;
-    text-decoration: none;
-    box-shadow: 3px 1px 6px -4px black;
     cursor: pointer;
 }
 
@@ -197,7 +192,7 @@ button.add-ingredient, button.add-prepara {
 }
 
 .buttonChef {
-    text-align: center;
+    text-align: right;
 }
 
 .chefImg {
@@ -411,4 +406,19 @@ form .item #photos-preview img {
 
 #photos-preview .photo:hover i {
     opacity: 1;
+}
+
+/* SECTION SHOW USER */
+
+section.showUser {
+    width: 940px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    position: relative;
+}
+
+section.showUser .item input {
+    max-width: 94%;
 }

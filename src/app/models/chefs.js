@@ -1,5 +1,4 @@
 const db = require('../../config/db')
-const {date} = require('../../lib/utils')
 const File = require('../models/File')
 const fs = require('fs')
 
@@ -9,6 +8,9 @@ module.exports = {
         db.query(`SELECT chefs.nome, COUNT(recipes) AS recipes
         FROM chefs LEFT JOIN recipes ON(recipes.chef_id = chefs.id)
         GROUP BY chefs.id`)
+    },
+    userSelectOptions() {
+        return db.query(`SELECT name, id FROM users`)
     },
     find(id) {
         return db.query(`SELECT chefs.*, files.path, COUNT(recipes) AS total FROM files
@@ -21,14 +23,15 @@ module.exports = {
         return db.query(`SELECT recipes.*, chefs.name AS autor 
         FROM recipes LEFT JOIN chefs 
         ON (recipes.chef_id = chefs.id)
-        WHERE recipes.chef_id = $1`, [id])
+        WHERE recipes.chef_id = $1
+        ORDER BY recipes.created_at DESC`, [id])
     },
     create(data, fileId) {
         const query = `
             INSERT INTO chefs (
                 name, 
-                file_id, 
-                updated_at
+                file_id,
+                user_id
                 ) VALUES ($1, $2, $3)
                 RETURNING id
         `
@@ -36,7 +39,7 @@ module.exports = {
         const values = [
             data.name,
             fileId,
-            date(Date.now()).iso
+            data.autor
         ]
 
         return db.query(query, values)
@@ -63,6 +66,7 @@ module.exports = {
         const allFiles = recipes.map(recipe => File.recipeFile(recipe.id))
         let promiseResults = await Promise.all(allFiles)
 
+        
         const fileChef = this.find(id)
         const resultFileChef = (await fileChef).rows[0]
 

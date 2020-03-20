@@ -1,5 +1,4 @@
 const db = require('../../config/db')
-const {date} = require('../../lib/utils')
 
 module.exports = {
     all() {
@@ -14,28 +13,38 @@ module.exports = {
                 ingredients,
                 preparation,
                 information, 
-                chef_id, 
-                created_at
-                ) VALUES ($1, $2, $3, $4, $5, $6)
+                chef_id
+                ) VALUES ($1, $2, $3, $4, $5)
                 RETURNING id
         `
+
+        // data.ingredients = typeof data.ingredients == "string" ? [data.ingredients] : data.ingredients
+        // data.preparation = typeof data.preparation == "string" ? [data.preparation] : data.preparation
+
+        if (typeof data.ingredients == "string") data.ingredients = [data.ingredients]
+        if (typeof data.preparation == "string") data.preparation = [data.preparation]
+
 
         const values = [
             data.title,
             data.ingredients,
             data.preparation,
             data.information,
-            data.autor,
-            date(Date.now()).iso
+            data.autor
         ]
 
         return db.query(query, values)
     },
-    chefSelectOptions() {
-        return db.query(`SELECT name, id FROM chefs`)
+    chefSelectOptions(id) {
+        let query = `SELECT name, id FROM chefs`
+        if(id) {
+            query = `${query} WHERE chefs.user_id = ${id}`
+        }
+
+        return db.query(query)
     },
     paginate(params) {
-        const {filter, limit, offset } = params
+        const {filter, id, limit, offset } = params
 
         let query ='',
             filterQuery='',
@@ -43,10 +52,11 @@ module.exports = {
                 SELECT COUNT(*) FROM recipes
             ) AS total`        
 
-        if (filter) {
+        if (filter || id) {
             filterQuery = `
             WHERE recipes.title ILIKE '%${filter}%'
             OR chefs.name ILIKE '%${filter}%'
+            OR chefs.user_id = '${id}'
             `
             totalQuery = `(
                 SELECT COUNT(*) FROM recipes LEFT JOIN chefs 
@@ -56,15 +66,15 @@ module.exports = {
         }
 
         query = `
-        SELECT recipes.*, ${totalQuery}, chefs.name AS autor
+        SELECT recipes.*, ${totalQuery}, chefs.user_id, chefs.name AS autor
         FROM recipes
         LEFT JOIN chefs ON (chefs.id = recipes.chef_id)
         ${filterQuery}
-        GROUP BY (recipes.id, chefs.name) 
+        GROUP BY (recipes.id, chefs.name, chefs.user_id) 
         ORDER BY recipes.created_at DESC
         LIMIT $1 OFFSET $2
         `
-        
+    
         return db.query(query, [limit, offset])
     },
     find(id) {

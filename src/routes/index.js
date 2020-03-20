@@ -12,4 +12,6 @@ routes.get('/', function(req, res) {
 routes.use('/adm', adm)
 routes.use('/', client)
 
+
+
 module.exports = routes

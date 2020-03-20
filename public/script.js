@@ -7,6 +7,7 @@ const pagination = document.querySelector('.pagination')
 const chefs = document.querySelectorAll('.amostraChefs')
 const buscandoPor = document.querySelector('.buscandoPor')
 const create = location.pathname
+const galleryPreview = document.querySelector('.gallery-preview')
 
 for (let receita of receitas) {
     receita.addEventListener('click', function() {
@@ -266,13 +267,56 @@ const ImageGallery = {
         target.classList.add('active')
 
         ImageGallery.highlight.src = target.src
-        Lightbox.image.src = target.src
+    }
+}
+
+const Validate = {
+    apply(input, func) {
+        Validate.clearErros(input)
+        let results = Validate[func](input.value)
+        input.value = results.value
+        if (results.error) Validate.displayError(input, results.error)
+
+    },
+    displayError(input, error) {
+        const div = document.createElement('div')
+        div.classList.add('error')
+        div.innerHTML = error
+        input.parentNode.appendChild(div)
+        input.focus()
+    },
+    clearErros(input) {
+        const errorDiv = input.parentNode.querySelector('.error')
+        if (errorDiv) errorDiv.remove()
+    },
+    isEmail(value) {
+        let error = null
+
+        const mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+
+        if (!value.match(mailFormat)) error = "Email inválido"
+
+        return {
+            error,
+            value
+        }
     }
 }
 
 // inserir templateColumns no preview
 
-const imgs = document.querySelectorAll('.gallery-preview img')
-const total = imgs.length
 
-document.querySelector('.gallery-preview').style.gridTemplateColumns = `repeat(${total}, 1fr)`
+if (galleryPreview) {
+    const idRecipe = document.querySelector('.idRecipe')
+    const id = idRecipe.value
+
+    if(currentPage == `/adm/${id}` || currentPage == `/receita${id}`) {
+        const imgs = document.querySelectorAll('.gallery-preview img')
+        const total = imgs.length
+
+        document.querySelector('.gallery-preview').style.gridTemplateColumns = `repeat(${total}, 1fr)`
+    }
+}
+
+
+

@@ -1,0 +1,40 @@
+.cabe2 {
+    background-color: black;
+    height: 50px;
+}
+.cabeçalho2 {
+    max-width: 940px;
+    width: 100%;
+    margin: 0 auto;
+    height: 50px;
+    display: grid;
+    grid-template-columns: 120px 100px 100px 100px 1fr;
+    align-items: center;
+}
+
+.cablink, .cabAdm {
+    color: white;
+    font-size: 14px;
+}
+
+.cabeçalho2 .cablink {
+    text-transform: uppercase;
+}
+
+.cabAdm {
+    font-size: 26px;
+    font-weight: 700;
+}
+
+.cabeçalho2 form {
+    text-align: right;
+    padding-right: 20px;
+}
+
+.cabeçalho2 form button {
+    color: white;
+    background-color: black;
+    font-size: 14px;
+    text-transform: uppercase;
+    cursor: pointer;
+}

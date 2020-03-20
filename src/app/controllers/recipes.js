@@ -1,6 +1,5 @@
 const Receita = require('../models/recipes')
 const Chef = require('../models/chefs')
-const {date} = require('../../lib/utils')
 const File = require('../models/File')
 
 module.exports = {
@@ -109,8 +108,6 @@ module.exports = {
             }
 
             receita.file = await getImage(receita.id)
-                        
-            receita.created_at = date(receita.created_at).format
 
             return res.render('client/receita', {receita})
         
@@ -183,7 +180,6 @@ module.exports = {
 
             receitas = await Promise.all(receitasPromise)
             
-            chef.updated_at = date(chef.updated_at).format
             return res.render('client/chefShow', {chef, receitas})
 
         }catch(err) {

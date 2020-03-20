@@ -1,15 +1,21 @@
 const Chef = require('../models/chefs')
 const Receita = require('../models/recipes')
-const {date} = require('../../lib/utils')
 const File = require('../models/File')
+const User = require('../models/users')
 
 module.exports = {
     async index(req, res) {
-
         try {
+            const success = req.session.success
+            if(success) {
+                delete req.session.success
+            }
+
+
             let results,
-                params = {},
-                { page, limit, filter } = req.query            
+            params = {},
+            { page, limit, filter } = req.query,
+            id = req.user.adm      
             
             page = page || 1
             limit = limit || 14
@@ -17,13 +23,14 @@ module.exports = {
             
             params = {
                 filter,
+                id,
                 limit,
                 offset
             }
-
+            
             results = await Receita.paginate(params)
             let receitas = results.rows
-
+            
             async function getImage(recipeId) {
                 let results = await File.recipeFile(recipeId)
                 const files = results.rows.map(file => `${req.protocol}://${req.headers.host}${file.path.replace('public', '')}`)
@@ -45,7 +52,7 @@ module.exports = {
                     page
                 }
                 
-                return res.render('adm/adm', {receitas, pagination, filter})
+                return res.render('adm/adm', {receitas, pagination, filter, success})
             }
 
         }catch(err) {
@@ -55,6 +62,11 @@ module.exports = {
     },
     async chefs(req, res) {
         try {
+            const success = req.session.success
+            if(success) {
+                delete req.session.success
+            }
+
             let results,
                 params = {},
                 { filter, page, limit } = req.query
@@ -84,12 +96,28 @@ module.exports = {
                     page
                 }
 
-                return res.render('adm/chefs', {chefs, pagination, filter})
+                return res.render('adm/chefs', { chefs, pagination, filter, success})
             }
             
         }catch(err) {
             console.error(err)
         }
         
+    },
+    async users(req, res) {
+        try {
+            const results = await User.all()
+
+            const users = results.rows
+
+            const success = req.session.success
+            if(success) {
+                delete req.session.success
+            }
+
+            return res.render('adm/users', { users, success })
+        }catch(err) {
+            console.error(err)
+        }
     }
 }

@@ -1,11 +1,11 @@
 const File = require('../models/File')
 const Receita = require('../models/recipes')
-const {date} = require('../../lib/utils')
 
 module.exports = {
     async create(req, res) {
         try {
-            const results = await Receita.chefSelectOptions()
+            const id = req.user.adm
+            const results = await Receita.chefSelectOptions(id)
             const options = results.rows
 
             return res.render('recipe/create', {chefOptions: options})
@@ -15,6 +15,11 @@ module.exports = {
     },
     async show(req, res) {
         try {
+            const success = req.session.success
+            if(success) {
+                delete req.session.success
+            }
+
             const results = await Receita.find(req.params.id)
 
             let receita = results.rows[0]
@@ -28,10 +33,8 @@ module.exports = {
             }
 
             receita.file = await getImage(receita.id)
-    
-            receita.created_at = date(receita.created_at).format
-    
-            return res.render('recipe/show', {receita})
+        
+            return res.render('recipe/show', {receita, success})
         }catch(err) {
             console.error(err)
         }
@@ -41,10 +44,9 @@ module.exports = {
             const results = await Receita.find(req.params.id)
             const receita = results.rows[0]
             if(!receita) return res.send('Receita not found!')
-    
-            receita.created_at = date(receita.created_at).format
-    
-            const resultsChef = await Receita.chefSelectOptions()
+            const id = req.user.adm
+        
+            const resultsChef = await Receita.chefSelectOptions(id)
             const options = resultsChef.rows
 
             // get images
@@ -79,7 +81,8 @@ module.exports = {
             const resultFiles = await Promise.all(filesPromise)
             
             await resultFiles.map(file => File.createConstraing(receita.id, file.rows[0].id))
-                 
+            
+            req.session.success =  "Receita criada com sucesso!"
             
             return res.redirect('/adm')
         }catch(err) {
@@ -114,6 +117,8 @@ module.exports = {
             }
             
             await Receita.update(req.body)
+
+            req.session.success =  "Receita atualizada com sucesso!"
             
             return res.redirect(`/adm/${req.body.id}`)
         }catch(err) {
@@ -129,6 +134,8 @@ module.exports = {
             await File.deleteConstraing(req.body.id)
 
             await Receita.delete(req.body.id)
+
+            req.session.success =  "Receita apagada com sucesso!"
         
             return res.redirect('/adm')
         }catch(err) {

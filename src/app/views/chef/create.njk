@@ -3,9 +3,17 @@
 {% block content2 %}
 
 <form action="/adm/chefs/create" method="post" enctype="multipart/form-data">
+<div class="controllerAdm">
+    <div class="h2Controller">
+        <h2>Criar Chef</h2>
+    </div>
+    <div class="button">
+        <button type="submit">Salvar</button>
+    </div>
+</div>
+
 <section class="createform">
-    <h2 class="create">Criar Chef</h2>
-    
+
     {% include 'chef/includ.njk' %}
 
 </section>

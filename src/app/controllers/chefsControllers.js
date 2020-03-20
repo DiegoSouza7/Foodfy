@@ -1,24 +1,31 @@
 const Chef = require('../models/chefs')
-const Receita = require('../models/recipes')
 const File = require('../models/File')
-const {date} = require('../../lib/utils')
 
 module.exports = {
     async create(req, res) {
         try {
-            return res.render('chef/create')
+            const results = await Chef.userSelectOptions()
+            const options = results.rows
+
+            return res.render('chef/create', {userOptions: options})
         }catch(err) {
             console.error(err)
+            return res.render('chef/create', {
+                error: "Erro inesperado, tente novamente!"
+            })
         }
     },
     async show(req, res) {
         try {
+            const success = req.session.success
+            if(success) {
+                delete req.session.success
+            }
+
             const results = await Chef.find(req.params.id)
             let chef = results.rows[0]
 
             if(!chef) return res.send('chef not found!')
-
-            updated_at = date(chef.updated_at).format
 
             chef = {
                 ...chef,
@@ -42,9 +49,12 @@ module.exports = {
 
             receitas = await Promise.all(receitasPromise)
 
-            return res.render('chef/show', {chef, receitas})
+            return res.render('chef/show', {chef, receitas, success})
         }catch(err) {
             console.error(err)
+            return res.render('chef/show', {
+                error: "Erro inesperado, tente novamente!"
+            })
         }
 
     },
@@ -55,12 +65,12 @@ module.exports = {
 
             if(!chef) return res.send('chef not found!')
 
-            updated_at = date(chef.updated_at).format
-            console.log(updated_at)
-
             return res.render('chef/edit', {chef})
         }catch(err) {
             console.error(err)
+            return res.render('chef/edit', {
+                error: "Erro inesperado, tente novamente!"
+            })
         }
     },
     async post(req, res) {
@@ -72,6 +82,7 @@ module.exports = {
                     return res.send('Por favor, preecha todos os campos!')
                 }
             }
+            
 
             if (req.files.length == 0) return res.send('Por favor, envie uma imagem')
 
@@ -80,10 +91,15 @@ module.exports = {
             const fileId = resultPromise[0].rows[0].id
 
             await Chef.create(req.body, fileId)
-            
+
+            req.session.success =  "Chef criado com sucesso!"
+
             return res.redirect('/adm/chefs')
         }catch(err) {
             console.error(err)
+            return res.render('chef/create', {
+                error: "Erro inesperado, tente novamente!"
+            })
         }
     },
     async put(req, res) {
@@ -98,16 +114,23 @@ module.exports = {
 
             await Chef.update(req.body)
 
+            req.session.success =  "Chef atualizado com sucesso!"
+
             return res.redirect(`/adm/chefs/${req.body.id}`)
         }catch(err) {
             console.error(err)
+            return res.render('chef/edit', {
+                error: "Erro inesperado, tente novamente!"
+            })
         }
     },
     async delete(req, res) {        
         try {
             await Chef.delete(req.body.id)
 
-            return res.redirect('/adm')
+            req.session.success =  "Chef apagado com sucesso!"
+
+            return res.redirect('/adm/chefs')
         }catch(err) {
             console.error(err)
         }

@@ -5,11 +5,16 @@
         {% include './parts/styles.njk' %}
     </head>
     <body>
+        {% include 'parts/messages.njk' %}
         <header class="cabe2">
             <div class="cabeçalho2">
-                <a href="/adm" class="cabAdm">Foodfy</a>
+                <a href="/" class="cabAdm">Foodfy</a>
                 <a href="/adm" class="cablink">Receitas</a>
                 <a href="/adm/chefs" class="cablink">Chefs</a>
+                <a href="/adm/users" class="cablink">Usuários</a>
+                <form action="/adm/logout" method="post">
+                    <button>Sair</button>
+                </form>
             </div>
         </header>
 

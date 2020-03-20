@@ -11,6 +11,7 @@
                     src="{{receita.file[0]}}" 
                     alt="{{receita.title}}"
                 >
+                <input type="hidden" class="idRecipe" value="{{receita.id}}">
             {% endif %}
         </div>
         <div class="gallery-preview">
@@ -66,7 +67,7 @@
             </div>
         </div>
     </div>
-    <div class="button">
+    <div class="button buttonCenter">
         <a href="/adm/{{receita.id}}/edit" class="editar">Editar Receita</a>
     </div>
 </section>
