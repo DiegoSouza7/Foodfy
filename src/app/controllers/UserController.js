@@ -25,7 +25,7 @@ module.exports = {
             const { name } = req.body
             const { id } = req.user
     
-            await User.updateName(id, name)
+            await User.update(id, { name })
             const user = req.body
     
             return res.render('user/index', {
@@ -67,7 +67,7 @@ module.exports = {
             
             // token para ser enviado um email de criar a senha
 
-            const token = crypto.randomBytes(20).toString('hex')
+            const reset_token = crypto.randomBytes(20).toString('hex')
 
             // criar uma expiração para o token
 
@@ -75,7 +75,7 @@ module.exports = {
             now = now.setHours(now.getHours() + 1)
             const  reset_token_expires = now
 
-            await User.updateTokens(user.id, token, reset_token_expires)
+            await User.update(user.id, { reset_token, reset_token_expires })
 
 
             await mailer.sendMail({
@@ -85,7 +85,7 @@ module.exports = {
                 html: `<h2>Obrigado pelo cadastro</h2>
                 <p>Clique no link para criar a sua senha</p>
                 <p>
-                    <a href="http://localhost:3000/adm/user/password-reset?token=${token}" target="_blanck">
+                    <a href="http://localhost:3000/adm/user/password-reset?token=${reset_token}" target="_blanck">
                     CRIAR SENHA
                     </a>
                 </p>
@@ -124,13 +124,25 @@ module.exports = {
             const result = await User.findOne({ where: {email} })
     
             let user = req.body
+
+            if((req.session.userId == result.id) && !isAdm) {
+                return res.render('user/edit', {
+                user,
+                error: "Você não pode remover essa função de sua conta!"
+            })}
     
             if(user.isAdm) user = {
                 ...user,
-                isAdm: true
+                is_admin: true
+            }
+            if(!user.isAdm) user = {
+                ...user,
+                is_admin: false
             }
             
-            await User.updateUser(result.id, user.name, user.isAdm)
+            const { name, is_admin } = user
+            
+            await User.update(result.id, {name, is_admin})
             
             req.session.success = "Usuário atualizado com sucesso!"
 

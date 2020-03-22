@@ -28,7 +28,7 @@ module.exports = {
         try {
             // token para ser enviado um email de alterar a senha
 
-            const token = crypto.randomBytes(20).toString('hex')
+            const reset_token = crypto.randomBytes(20).toString('hex')
 
             // criar uma expiração para o token
 
@@ -36,7 +36,7 @@ module.exports = {
             now = now.setHours(now.getHours() + 1)
             const  reset_token_expires = now
 
-            await User.updateTokens(user.id, token, reset_token_expires)
+            await User.update(user.id, {reset_token, reset_token_expires})
 
 
             await mailer.sendMail({
@@ -46,7 +46,7 @@ module.exports = {
                 html: `<h2>Perdeu a senha?</h2>
                 <p>Clique no link para recuperar sua senha</p>
                 <p>
-                    <a href="http://localhost:3000/adm/user/password-reset?token=${token}" target="_blanck">
+                    <a href="http://localhost:3000/adm/user/password-reset?token=${reset_token}" target="_blanck">
                     CRIAR SENHA
                     </a>
                 </p>
@@ -67,15 +67,19 @@ module.exports = {
     },
     async reset(req, res) {
         const { user } = req
-        const { password, token } = req.body
+        let { password, reset_token } = req.body
 
         try {
             // criar um novo hash de senha
 
-            const newPassword = await hash(password, 8)
+            password = await hash(password, 8)
 
             // atualiza o usuário
-            await User.update(user.id, newPassword)
+            await User.update(user.id, {
+                password, 
+                reset_token: '',
+                reset_token_expires: ''
+            })
 
             // avisa o usuário que ele tem uma nova senha 
 
@@ -89,7 +93,7 @@ module.exports = {
             console.error(err)
             return res.render('session/newPassword', {
                 user: req.body,
-                token,
+                reset_token,
                 error: "Erro inesperado, tente novamente!"
             })
         }

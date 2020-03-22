@@ -8,6 +8,8 @@ const chefs = document.querySelectorAll('.amostraChefs')
 const buscandoPor = document.querySelector('.buscandoPor')
 const create = location.pathname
 const galleryPreview = document.querySelector('.gallery-preview')
+const ingredient = document.querySelector('#ingredients')
+const preparation = document.querySelector('#preparation')
 
 for (let receita of receitas) {
     receita.addEventListener('click', function() {
@@ -58,6 +60,68 @@ function close3(closeModal3) {
         }
     })
 }
+
+// função adicionar e remover ingredients e preparação
+
+function addIngredient() {
+    const ingredients = document.querySelector("#ingredients")
+    const fieldContainer = document.querySelectorAll(".ingredient")
+    
+    // Realiza um clone do último ingrediente adicionado
+    const newField = fieldContainer[fieldContainer.length - 1].cloneNode(
+    true
+    )
+
+    // Não adiciona um novo input se o último tem um valor vazio
+    if (newField.children[0].value == "") return false
+
+    // Deixa o valor do input vazio
+    newField.children[0].value = "" 
+    ingredients.appendChild(newField)
+}
+
+function addPreparation() {
+    const prepara = document.querySelector("#preparation")
+    const fieldContainer = document.querySelectorAll(".prepara")
+    
+    // Realiza um clone do último ingrediente adicionado
+    const newField = fieldContainer[fieldContainer.length - 1].cloneNode(
+    true
+    )
+
+    // Não adiciona um novo input se o último tem um valor vazio
+    if (newField.children[0].value == "") return false
+
+    // Deixa o valor do input vazio
+    newField.children[0].value = "" 
+    prepara.appendChild(newField)
+}
+
+function removeIngredient() {
+    const fieldContainer = document.querySelectorAll(".ingredient")
+
+    // Pegue o ultimo Field
+    const remove = fieldContainer[fieldContainer.length - 1]
+
+    // Não remove o input se este for o único
+    if (fieldContainer.length == 1) return false
+
+    remove.remove()
+}
+
+function removePreparation() {
+    const fieldContainer = document.querySelectorAll(".prepara")
+
+    // Pegue o ultimo Field
+    const remove = fieldContainer[fieldContainer.length - 1]
+
+    // Não remove o input se este for o único
+    if (fieldContainer.length == 1) return false
+
+    remove.remove()
+}
+
+
 
 //funcão de paginacão
 
@@ -138,6 +202,16 @@ if (pagination) {
     if (pagination.dataset.filter) {
         mostrarFiltro(buscandoPor)
     }
+}
+
+if(ingredient) {
+    document.querySelector('.add-ingredient').addEventListener('click', addIngredient)
+    document.querySelector('.remove-ingredient').addEventListener('click', removeIngredient)
+}
+
+if(preparation) {
+    document.querySelector('.add-prepara').addEventListener('click', addPreparation)
+    document.querySelector('.remove-prepara').addEventListener('click', removePreparation)
 }
 
 // Imagens
@@ -317,6 +391,5 @@ if (galleryPreview) {
         document.querySelector('.gallery-preview').style.gridTemplateColumns = `repeat(${total}, 1fr)`
     }
 }
-
 
 

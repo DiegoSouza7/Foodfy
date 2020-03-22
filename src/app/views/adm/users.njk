@@ -21,11 +21,21 @@
                 <form id="form-delete" action="/adm/users?_method=DELETE" method="post">
                 <input type="hidden" name="id" value="{{user.id}}">
                     <button class="removeUser" type="submit">Remover</button>
-                </form>                
+                </form>
             </div>
         </div>
     {% endfor %}
 </section>
+<script>
+        
+    const formDelete = document.querySelector('#form-delete')
+    formDelete.addEventListener('submit', function(event) {
+        const confirmation = confirm('Deseja Deletar?')
+        if (!confirmation) {
+            event.preventDefault()
+        }
+    })
+</script>
 
 
 {% endblock content2 %}

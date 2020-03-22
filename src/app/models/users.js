@@ -17,7 +17,7 @@ module.exports = {
                 query = `${query} ${field} = '${filters[key][field]}'`
             })
         })
-        
+
         const results = await db.query(query)
 
         return results.rows[0]
@@ -45,61 +45,14 @@ module.exports = {
         const results = await db.query(query, values)
         return results.rows[0]
     },
-    async updateTokens(id, token, resetToken) {
-        const query = `UPDATE users SET 
-            reset_token=($1),
-            reset_token_expires=($2)
-            WHERE id = $3
-        `
-
-        const values = [
-            token,
-            resetToken,
-            id
-        ]
-
-        return db.query(query, values)
-    },
-    async update(id,password) {
-        const query = `UPDATE users SET 
-            password=($1),
-            reset_token='',
-            reset_token_expires=''
-            WHERE id = $2
-        `
-
-        const values = [
-            password,
-            id
-        ]
-
-        return db.query(query, values)
-    },
-    async updateName(id, name) {
-        const query = `UPDATE users SET 
-            name=($1)
-            WHERE id = $2
-        `
-        const values = [
-            name,
-            id
-        ]
-
-        return db.query(query, values)
-    },
-    async updateUser(id, name, isAdmin) {
-        const query = `UPDATE users SET 
-        name=($1),
-        is_admin=($2)
-        WHERE id = $3
-    `
-        const values = [
-            name,
-            isAdmin || false,
-            id
-        ]
-
-        return db.query(query, values)
+    async update(id, fields) {
+        let query = `UPDATE users SET`
+        
+        Object.keys(fields).map(key =>  query = `${query} ${key} = '${fields[key]}',`)
+        query = `${query.slice(0, -1)} WHERE id = ${id}`
+        await db.query(query)
+        
+        return
     },
     async delete(id) {
         try {

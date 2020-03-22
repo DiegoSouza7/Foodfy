@@ -82,6 +82,8 @@
             </div>
         </div>
         <button type="button" class="add-ingredient">Adicionar novo ingrediente</button>
+        <button type="button" class="remove-ingredient">Remover ultimo ingrediente</button>
+
 
         <div id="preparation">
         <div>Modo de Preparo</div>
@@ -95,6 +97,7 @@
             </div>
         </div>
         <button type="button" class="add-prepara">Adicionar novo passo</button>
+        <button type="button" class="remove-prepara">Remover ultimo passo</button>
 
         <div class="item">
         <div>Informações adicionais</div>
@@ -102,45 +105,6 @@
                 <textarea name="information">{{receita.information}}</textarea>
             </div>
         </div>
-
-        <script>
-        function addIngredient() {
-            const ingredients = document.querySelector("#ingredients")
-            const fieldContainer = document.querySelectorAll(".ingredient")
-            
-            // Realiza um clone do último ingrediente adicionado
-            const newField = fieldContainer[fieldContainer.length - 1].cloneNode(
-            true
-            )
-        
-            // Não adiciona um novo input se o último tem um valor vazio
-            if (newField.children[0].value == "") return false
-        
-            // Deixa o valor do input vazio
-            newField.children[0].value = "" 
-            ingredients.appendChild(newField)
-        }
-
-        function addPreparation() {
-            const prepara = document.querySelector("#preparation")
-            const fieldContainer = document.querySelectorAll(".prepara")
-            
-            // Realiza um clone do último ingrediente adicionado
-            const newField = fieldContainer[fieldContainer.length - 1].cloneNode(
-            true
-            )
-        
-            // Não adiciona um novo input se o último tem um valor vazio
-            if (newField.children[0].value == "") return false
-        
-            // Deixa o valor do input vazio
-            newField.children[0].value = "" 
-            prepara.appendChild(newField)
-        }
-
-        document.querySelector('.add-ingredient').addEventListener('click', addIngredient)
-        document.querySelector('.add-prepara').addEventListener('click', addPreparation)
-        </script>
 
     </section>
 </form>

@@ -7,10 +7,6 @@
     <div class="h2Controller">
         <h2>Atualizar usuário</h2>
     </div>
-
-    <div class="button">
-        <button type="submit">Salvar</button>
-    </div>
 </div>
 
 <section class="showUser">
@@ -46,7 +42,16 @@
     </div>
 </section>
 
+    <div class="button buttonCenter">
+        <button type="submit">Salvar</button>
+    </div>
 </form>
+<div class="button buttonCenter">
+    <form id="form-delete" action="/adm/users?_method=DELETE" method="post">
+    <input type="hidden" name="id" value="{{user.id}}">
+        <button class="removeUser" type="submit">Remover</button>
+    </form>
+</div>
 
 
 {% endblock content2 %}

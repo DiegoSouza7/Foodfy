@@ -93,6 +93,8 @@ module.exports = {
                 WHERE id = $6
                 
         `
+        if (typeof data.ingredients == "string") data.ingredients = [data.ingredients]
+        if (typeof data.preparation == "string") data.preparation = [data.preparation]
 
         const values = [
             data.title,

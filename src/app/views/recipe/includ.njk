@@ -67,7 +67,8 @@
     </div>
     {% endfor %}
 </div>
-<button type="button" class="add-ingredient">Add Ingredient</button>
+<button type="button" class="add-ingredient">Add Ingrediente</button>
+<button type="button" class="remove-ingredient">Remover Último Ingrediente</button>
 
 <div id="preparation">
 <div>Modo de Preparo</div>
@@ -82,19 +83,22 @@
     </div>
     {% endfor %}
 </div>
-<button type="button" class="add-prepara">Add preparação</button>
+<button type="button" class="add-prepara">Add Preparação</button>
+<button type="button" class="remove-prepara">Remover Última Preparação</button>
 
 <div class="item">
-<div>Informações</div>
-    <div>
-        <input
-            type="text"
-            name="information"
-            value= "{{receita.information}}"
-        >
+    <div>Informações adicionais</div>
+        <div>
+            <textarea name="information">{{receita.information}}</textarea>
+        </div>
     </div>
 </div>
 
 <div class="button buttonCenter">
     <button type="submit">Salvar</button>
 </div>
+
+<script>
+
+
+</script>
