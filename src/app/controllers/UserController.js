@@ -1,11 +1,23 @@
-const User = require('../models/users')
 const crypto = require('crypto')
+const { hash } = require('bcryptjs')
+const User = require('../models/users')
+const Chef = require('../models/chefs')
 const mailer = require('../../config/mailer')
 const RandomPassword = require('../../lib/randomPassword')
+const CascateChefs = require('../services/cascateChefs')
 
 module.exports = {
     async index(req, res) {
         try {
+            const error = req.session.error
+            if(error) {
+                delete req.session.error
+            }
+            const success = req.session.success
+            if(success) {
+                delete req.session.success
+            }
+
             let id = req.session.userId
 
             const result = await User.findOne({where: {id}})
@@ -14,7 +26,7 @@ module.exports = {
     
             const user = {id, name, email}
     
-            return res.render('user/index', { user })
+            return res.render('user/index', { user, error, success })
 
         }catch(err) {
             console.error(err)
@@ -26,12 +38,10 @@ module.exports = {
             const { id } = req.user
     
             await User.update(id, { name })
-            const user = req.body
+
+            req.session.success = "Usuário atualizado com sucesso!"
     
-            return res.render('user/index', {
-                user,
-                success: "Usuário atualizado com sucesso!"
-            })
+            return res.redirect('/adm/user')
 
         }catch(err) {
             console.error(err)
@@ -41,45 +51,60 @@ module.exports = {
         }
     },
     async create(req, res) {
-        return res.render('user/create')
+        const error = req.session.error
+        if(error) {
+            delete req.session.error
+        }
+
+        return res.render('user/create', {error})
     },
     async post(req, res) {
         try {
-            let user = req.body
+            let { name, email, is_admin } = req.body
 
-            const { email } = user
             const userExist = await User.findOne({where: {email}})
-
+            
             if(userExist) {
                 return res.render('user/create', {
                     error: 'Email já cadastrado!'
                 })
             }
-
-            const password = RandomPassword.randomPassword()
-
-            if(user.isAdm) user = {
-                ...user,
-                isAdm: true
+            
+            if (is_admin) {
+                is_admin = true
+            } else {
+                is_admin = false
             }
-            
-            user = await User.create(user, password)
-            
+
+            // criar um password random
+
+            let password = RandomPassword.randomPassword()
+            password = await hash(password, 10)
+
             // token para ser enviado um email de criar a senha
 
             const reset_token = crypto.randomBytes(20).toString('hex')
-
+            
             // criar uma expiração para o token
 
             let now = new Date()
             now = now.setHours(now.getHours() + 1)
             const  reset_token_expires = now
+            
+            //criar o usuário
 
-            await User.update(user.id, { reset_token, reset_token_expires })
-
+            await User.create({
+                name, 
+                email, 
+                is_admin, 
+                password,
+                reset_token, 
+                reset_token_expires
+            })
+            
 
             await mailer.sendMail({
-                to: user.email,
+                to: email,
                 from: 'no-reply@foodfy.com',
                 subject: 'Criar uma Senha',
                 html: `<h2>Obrigado pelo cadastro</h2>
@@ -105,6 +130,11 @@ module.exports = {
     },
     async edit(req, res) {
         try {
+            const error = req.session.error
+            if(error) {
+                delete req.session.error
+            }
+
             const id = req.params.id
 
             const result = await User.findOne({where: {id}})
@@ -113,34 +143,37 @@ module.exports = {
     
             const user = {id, name, email, is_admin}
     
-            return res.render('user/edit', {user})
+            return res.render('user/edit', {user, error})
         }catch (err) {
             console.error(err)
         }
     },
     async put(req, res) {
         try {
-            const { email, isAdm } = req.body
-            const result = await User.findOne({ where: {email} })
-    
+            let { id, name, email, is_admin} = req.body
+
+            const result = await User.findOne({ where: {id} })
+
             let user = req.body
 
-            if((req.session.userId == result.id) && !isAdm) {
+            if((req.session.userId == id) && !is_admin) {
                 return res.render('user/edit', {
                 user,
                 error: "Você não pode remover essa função de sua conta!"
             })}
-    
-            if(user.isAdm) user = {
-                ...user,
-                is_admin: true
-            }
-            if(!user.isAdm) user = {
-                ...user,
-                is_admin: false
-            }
             
-            const { name, is_admin } = user
+            if((email != result.email) || !result) {
+                return res.render('user/edit', {
+                    user,
+                    error: "Você não pode alterar o e-mail de sua conta!"
+                })
+            }
+    
+            if (is_admin) {
+                is_admin = true
+            } else {
+                is_admin = false
+            }
             
             await User.update(result.id, {name, is_admin})
             
@@ -156,17 +189,21 @@ module.exports = {
     },
     async delete(req, res) {
         try {
-            let results = await User.all()
-
-            let users = results.rows
+            let users = await User.findAll()
 
             if(req.session.userId == req.body.id) {
-                return res.render('adm/users', {
-                users,
-                error: "Você não pode deletar sua própria conta!"
-            })} else {
+                req.session.error = "Você não pode deletar sua própria conta!"
+
+                return res.redirect('/adm/users' )
+            } else {
+                //pegar os chefs daquele usuario e deletar
+                const chefs = await Chef.findAll({where: {user_id: req.body.id}})
+
+                const allChefsPromise = chefs.map(chef => CascateChefs.deleteChefsAndRecipes(chef.id))
+
+                await Promise.all(allChefsPromise)
+
                 await User.delete(req.body.id)
-                results = await User.all()
 
                 req.session.success = "Usuário deletado com sucesso!"
 

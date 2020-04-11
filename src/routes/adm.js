@@ -8,6 +8,7 @@ const recipes = require('../app/controllers/recipesController')
 const multer = require('../app/middlewares/multer')
 const { isLoggedRedirectToUsers, onlyUsers, isAdm } = require('../app/middlewares/session')
 const SessionValidator = require('../app/validators/session')
+const FieldsValidator = require('../app/validators/fields')
 const UserValidator = require('../app/validators/user')
 
 
@@ -40,8 +41,8 @@ routes.put('/user', onlyUsers, UserValidator.update, UserController.updateUser)
 
 routes.get('/users/create', onlyUsers, isAdm, UserController.create)
 routes.get('/users/:id', onlyUsers, isAdm, UserController.edit)
-routes.post('/users/create', onlyUsers, isAdm, UserController.post)
-routes.put('/users', onlyUsers, isAdm, UserController.put)
+routes.post('/users/create', onlyUsers, isAdm, FieldsValidator.postUser, UserController.post)
+routes.put('/users', onlyUsers, isAdm, FieldsValidator.putUser, UserController.put)
 routes.delete('/users', onlyUsers, isAdm, UserController.delete)
 
 
@@ -50,18 +51,18 @@ routes.delete('/users', onlyUsers, isAdm, UserController.delete)
 routes.get('/create', onlyUsers, UserValidator.adm, recipes.create)
 routes.get('/:id', onlyUsers, recipes.show)
 routes.get('/:id/edit', onlyUsers, UserValidator.adm, recipes.edit)
-routes.post('/create', onlyUsers, multer.array('photos', 5), recipes.post)
-routes.put('/create', onlyUsers, multer.array('photos', 5), recipes.put)
+routes.post('/create', onlyUsers, multer.array('photos', 5), FieldsValidator.post, recipes.post)
+routes.put('/create', onlyUsers, multer.array('photos', 5),FieldsValidator.put, recipes.put)
 routes.delete('/recipe', onlyUsers, recipes.delete)
 
 
 // chefs
 
 routes.get('/chefs/create', onlyUsers, isAdm, chefs.create)
-routes.post('/chefs/create', onlyUsers, isAdm, multer.array('photos', 1), chefs.post)
+routes.post('/chefs/create', onlyUsers, isAdm, multer.single('photos'), FieldsValidator.postChef, chefs.post)
 routes.get('/chefs/:id', onlyUsers, isAdm, chefs.show)
 routes.get('/chefs/:id/edit', onlyUsers, isAdm, chefs.edit)
-routes.put('/chefs', onlyUsers, isAdm, multer.array('photos', 1), chefs.put)
+routes.put('/chefs', onlyUsers, isAdm, multer.single('photos'), FieldsValidator.putChef, chefs.put)
 routes.delete('/chefs', onlyUsers, isAdm, chefs.delete)
 
 

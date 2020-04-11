@@ -2,26 +2,30 @@
 
 {% block content2 %}
 
+<form id="form-delete" action="/adm/recipe?_method=DELETE" method="post">
+</form>
+
+<form action="/adm/create?_method=PUT" method="post" enctype="multipart/form-data">
+
+<div class="controllerAdm">
+    <div class="h2Controller">
+        <h2>Editar Receita</h2>
+    </div>
+
+    <div class="button">
+        <input form="form-delete" type="hidden" name="id" value="{{receita.id}}"/>
+        <button class="remove" type="submit" form="form-delete">Remover</button>
+        <input type="hidden" name="id" value="{{receita.id}}">
+        <button type="submit">Salvar</button>
+    </div>
+</div>
+
 <section class="formularioReceita">
-    
-    <h1>Editar Receita</h1>
 
-    <form action="/adm/create?_method=PUT" method="post" enctype="multipart/form-data">
-
-        {% include 'recipe/includ.njk' %}
-
-        <input type="hidden" name="id" value={{receita.id}}>
-
-    </form>
-
-    <form id="form-delete" action="/adm/recipe?_method=DELETE" method="post">
-        <div class="button buttonCenter">
-            <input type="hidden" name="id" value="{{receita.id}}">
-            <button type="submit">Deletar</button>
-        </div>
-    </form>
+    {% include 'recipe/includ.njk' %}
 
 </section>
+</form>
 
 <script>
         

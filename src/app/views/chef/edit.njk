@@ -2,11 +2,25 @@
 
 {% block content2 %}
 
-<section class="formularioChef">
-    
-    <h1>Editar Chef</h1>
+<form id="form-delete" action="/adm/chefs?_method=DELETE" method="post">
+</form>
 
-    <form action="/adm/chefs?_method=PUT" method="post">
+<form action="/adm/chefs?_method=PUT" method="post">
+<div class="controllerAdm">
+    <div class="h2Controller">
+        <h2>Editar Chef</h2>
+    </div>
+
+    <div class="button">
+        <input form="form-delete" type="hidden" name="id" value="{{chef.id}}">
+        <button class="remove" type="submit" form="form-delete">Remover</button>
+        <input type="hidden" name="id" value="{{chef.id}}">
+        <button type="submit">Salvar</button>
+    </div>
+</div>
+
+
+<section class="formularioChef">
       
         <div class="item">
             <div>Nome do Chef</div>
@@ -18,22 +32,7 @@
                 >
             </div>
         </div>
-
-        <div class="button buttonCenter">
-            <button type="submit">Salvar</button>
-        </div>
-
-        <input type="hidden" name="id" value={{chef.id}}>
-
     </form>
-
-    <form id="form-delete" action="/adm/chefs?_method=DELETE" method="post">
-        <div class="button buttonCenter">
-            <input type="hidden" name="id" value="{{chef.id}}">
-            <button type="submit">Deletar</button>
-        </div>
-    </form>
-
 </section>
 
 <script>

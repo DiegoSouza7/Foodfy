@@ -2,10 +2,21 @@
 
 {% block content2 %}
 
+<form id="form-delete" action="/adm/users?_method=DELETE" method="post">
+
+</form>
+
 <form action="/adm/users?_method=PUT" method="post">
 <div class="controllerAdm">
     <div class="h2Controller">
         <h2>Atualizar usuário</h2>
+    </div>
+
+    <div class="button">
+        <input form="form-delete" id="form-delete" type="hidden" name="id" value="{{user.id}}"/>
+        <button class="remove" type="submit" form="form-delete">Remover</button>
+        <input type="hidden" name="id" value="{{user.id}}">
+        <button type="submit">Salvar</button>
     </div>
 </div>
 
@@ -41,17 +52,16 @@
         > Administrador
     </div>
 </section>
-
-    <div class="button buttonCenter">
-        <button type="submit">Salvar</button>
-    </div>
 </form>
-<div class="button buttonCenter">
-    <form id="form-delete" action="/adm/users?_method=DELETE" method="post">
-    <input type="hidden" name="id" value="{{user.id}}">
-        <button class="removeUser" type="submit">Remover</button>
-    </form>
-</div>
 
+<script>
+    const formDelete = document.querySelector('#form-delete')
+    formDelete.addEventListener('submit', function(event) {
+        const confirmation = confirm('Deseja Deletar?')
+        if (!confirmation) {
+            event.preventDefault()
+        }
+    })
+</script>
 
 {% endblock content2 %}

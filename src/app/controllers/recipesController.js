@@ -1,14 +1,30 @@
-const File = require('../models/File')
 const Receita = require('../models/recipes')
+const CascateFiles = require('../services/cascateFiles')
+const File = require('../models/File')
+const RecipeFile = require('../models/recipeFiles')
+const GetImage = require('../services/getImage')
+const Chef = require('../models/chefs')
 
 module.exports = {
     async create(req, res) {
         try {
+            const error = req.session.error
+            if(error) {
+                delete req.session.error
+            }
             const id = req.user.adm
-            const results = await Receita.chefSelectOptions(id)
-            const options = results.rows
 
-            return res.render('recipe/create', {chefOptions: options})
+            let options = ''
+        
+            if(id) {
+                options = await Chef.findAll({where: {user_id: id}}, 'name, id')
+            } else {
+                options = await Chef.findAll('', 'name, id')
+            }
+
+            return res.render('recipe/create', {chefOptions: options, error})
+            
+
         }catch(err) {
             console.error(err)
         }
@@ -20,20 +36,15 @@ module.exports = {
                 delete req.session.success
             }
 
-            const results = await Receita.find(req.params.id)
+            let receita = await Receita.findOne({where: {id: req.params.id}})
 
-            let receita = results.rows[0]
-    
+            const autor = await Chef.findOne({where: {id: receita.chef_id}}, 'chefs.name')
+            receita.autor = autor.name
+            
             if(!receita) return res.send('receita not found!')
-
-            async function getImage(recipeId) {
-                let results = await File.recipeFile(recipeId)
-                const files = results.rows.map(file => `${req.protocol}://${req.headers.host}${file.path.replace('public', '')}`)
-                return files
-            }
-
-            receita.file = await getImage(receita.id)
-        
+                        
+            receita.file = await GetImage.getImages(receita.id)
+            
             return res.render('recipe/show', {receita, success})
         }catch(err) {
             console.error(err)
@@ -41,46 +52,59 @@ module.exports = {
     },
     async edit(req, res) {
         try {
-            const results = await Receita.find(req.params.id)
-            const receita = results.rows[0]
+            const error = req.session.error
+            if(error) {
+                delete req.session.error
+            }
+
+            let receita = await Receita.findOne({where: {id: req.params.id}})
+
+            const autor = await Chef.findOne({where: {id: receita.chef_id}}, 'chefs.name')
+            receita.autor = autor.name
+
+
             if(!receita) return res.send('Receita not found!')
             const id = req.user.adm
+            let options = ''
         
-            const resultsChef = await Receita.chefSelectOptions(id)
-            const options = resultsChef.rows
+            if(id) {
+                options = await Chef.findAll({where: {user_id: id}}, 'name, id')
+            } else {
+                options = await Chef.findAll('', 'name, id')
+            }
 
             // get images
-            const resultsFiles = await File.recipeFile(receita.id)
-            let files = resultsFiles.rows
+            const recipeFiles = await RecipeFile.findAll({where: {recipe_id: receita.id}})
+            const filesPromise = recipeFiles.map(recipeFile => File.findOne({where: {id: recipeFile.file_id}}))
+            let files = await Promise.all(filesPromise)
+
             files = files.map(file => ({
                 ...file,
-                src: `${req.protocol}://${req.headers.host}${file.path.replace('public', '')}`
+                src: `${file.path.replace('public', '')}`
             }))
     
-            return res.render('recipe/edit', {receita, chefOptions: options, files})
+            return res.render('recipe/edit', {receita, chefOptions: options, files, error})
         }catch(err) {
             console.error(err)
         }
     },
     async post(req, res) {
         try {
-            const keys = Object.keys(req.body)
+            let { title, autor, ingredients, preparation, information } = req.body
+            if (typeof ingredients == "string") ingredients = [ingredients]
+            if (typeof preparation == "string") preparation = [preparation]
 
-            for(key of keys) {
-                if (req.body[key] == '') {
-                    return res.send('Por favor, preecha todos os campos!')
-                }
-    
-            }
-    
-            const resultsRecipes = await Receita.create(req.body)
-            const receita = resultsRecipes.rows[0]
+            const chef_id = autor
 
+            const receita = await Receita.create({
+                title, 
+                chef_id, 
+                ingredients, 
+                preparation, 
+                information
+            })
 
-            const filesPromise = req.files.map(file => File.create({...file}))
-            const resultFiles = await Promise.all(filesPromise)
-            
-            await resultFiles.map(file => File.createConstraing(receita.id, file.rows[0].id))
+            await CascateFiles.createFilesAndConstraing(req.files, receita)
             
             req.session.success =  "Receita criada com sucesso!"
             
@@ -91,19 +115,9 @@ module.exports = {
     },
     async put(req, res) {
         try {
-            const keys = Object.keys(req.body)
-            
-            for(key of keys) {
-                if (req.body[key] == '' && key != "removed_files" && key != 'photos') {
-                    return res.send('Por favor, preecha todos os campos!')
-                }
-            }
 
             if(req.files.length != 0) {
-                const filesPromise = req.files.map(file => File.create({...file}))
-                const resultFiles = await Promise.all(filesPromise)
-                
-                await resultFiles.map(file => File.createConstraing(req.body.id, file.rows[0].id))
+                await CascateFiles.createFilesAndConstraing(req.files, req.body.id)
             }
             
             if (req.body.removed_files) {
@@ -111,12 +125,24 @@ module.exports = {
                 const lastIndex = removedFiles.length - 1
                 removedFiles.splice(lastIndex, 1)
                 
-                const removedFilesPromise = removedFiles.map(id => File.delete(id))
+                const removedFilesPromise = removedFiles.map(id => CascateFiles.deleteFiles(id))
                 
                 await Promise.all(removedFilesPromise)
             }
             
-            await Receita.update(req.body)
+            let { id, title, autor, ingredients, preparation, information } = req.body
+            if (typeof ingredients == "string") ingredients = [ingredients]
+            if (typeof preparation == "string") preparation = [preparation]
+
+            const chef_id = autor
+
+            await Receita.update(id, {
+                title, 
+                chef_id, 
+                ingredients, 
+                preparation, 
+                information
+            })
 
             req.session.success =  "Receita atualizada com sucesso!"
             
@@ -127,11 +153,7 @@ module.exports = {
     },
     async delete(req, res) {
         try {
-            const results = File.recipeFile(req.body.id)
-            const files = (await results).rows
-            await files.map(file => File.delete(file.file_id))
-
-            await File.deleteConstraing(req.body.id)
+            await CascateFiles.deleteRecipeFiles(req.body.id)
 
             await Receita.delete(req.body.id)
 

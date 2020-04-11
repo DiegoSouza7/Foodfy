@@ -15,11 +15,11 @@ module.exports = {
         const id = req.session.userId
 
         const user = await User.findOne({where: {id}})
-
+        
         if (user.is_admin == false) {
-            return res.render('adm/adm', {
-            error: 'Você não possui o cargo de administrador!'
-        })} else if (user.is_admin == true){
+            req.session.error = 'Você não possui o cargo de administrador!'
+            return res.redirect('/adm')
+        } else if (user.is_admin == true){
             next()
         }
     }

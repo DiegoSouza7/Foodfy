@@ -1,6 +1,6 @@
 const Chef = require('../models/chefs')
 const Receita = require('../models/recipes')
-const File = require('../models/File')
+const GetImage = require('../services/getImage')
 const User = require('../models/users')
 
 module.exports = {
@@ -11,34 +11,31 @@ module.exports = {
                 delete req.session.success
             }
 
+            const error = req.session.error
+            if(error) {
+                delete req.session.error
+            }
 
-            let results,
-            params = {},
-            { page, limit, filter } = req.query,
-            id = req.user.adm      
+            let { page, limit, filter } = req.query,
+                id = req.user.adm
             
             page = page || 1
-            limit = limit || 14
+            limit = limit || 10
             let offset = limit * (page - 1)
-            
-            params = {
-                filter,
+                orderby = 'recipes.created_at DESC'
+
+            const params = {
                 id,
+                filter,
+                orderby,
                 limit,
                 offset
             }
-            
-            results = await Receita.paginate(params)
-            let receitas = results.rows
-            
-            async function getImage(recipeId) {
-                let results = await File.recipeFile(recipeId)
-                const files = results.rows.map(file => `${req.protocol}://${req.headers.host}${file.path.replace('public', '')}`)
-                return files[0]
-            }
+                       
+            let receitas = await Receita.paginate(params)
             
             const receitasPromise = receitas.map(async recipe => {
-                recipe.file = await getImage(recipe.id)
+                recipe.file = await GetImage.getImage(recipe.id)
                 return recipe
             })
 
@@ -52,7 +49,7 @@ module.exports = {
                     page
                 }
                 
-                return res.render('adm/adm', {receitas, pagination, filter, success})
+                return res.render('adm/adm', {receitas, pagination, filter, success, error})
             }
 
         }catch(err) {
@@ -67,36 +64,34 @@ module.exports = {
                 delete req.session.success
             }
 
-            let results,
-                params = {},
-                { filter, page, limit } = req.query
+            let params = {},
+                { page, limit } = req.query
     
             page = page || 1
-            limit = limit || 14
+            limit = limit || 10
             let offset = limit * (page - 1)
     
             params = {
-                filter,
                 limit,
                 offset
             }
 
-            results = await Chef.paginate(params)
-            chefs = results.rows.map(chef => ({
+            let chefs = await Chef.paginate(params)
+            
+            chefs = chefs.map(chef => ({
                 ...chef,
-                path: `${req.protocol}://${req.headers.host}${chef.path.replace('public', '')}`
+                path: `${chef.path.replace('public', '')}`
             }))
 
-    
             if(chefs.length == 0) {
                 return res.render('adm/chefs')
             } else{
                 const pagination = {
-                    total: Math.ceil(chefs[0].total / limit),
+                    total: Math.ceil(chefs[0].totalchefs / limit),
                     page
                 }
 
-                return res.render('adm/chefs', { chefs, pagination, filter, success})
+                return res.render('adm/chefs', { chefs, pagination, success})
             }
             
         }catch(err) {
@@ -106,16 +101,20 @@ module.exports = {
     },
     async users(req, res) {
         try {
-            const results = await User.all()
-
-            const users = results.rows
+            const users = await User.findAll()
 
             const success = req.session.success
+            
             if(success) {
                 delete req.session.success
             }
 
-            return res.render('adm/users', { users, success })
+            const error = req.session.error
+            if(error) {
+                delete req.session.error
+            }
+            
+            return res.render('adm/users', { users, success, error })
         }catch(err) {
             console.error(err)
         }

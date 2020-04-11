@@ -95,3 +95,18 @@ CREATE TRIGGER set_timestamp
 BEFORE UPDATE ON recipes
 FOR EACH ROW
 EXECUTE PROCEDURE trigger_set_timestamp_created();
+
+
+-- to run seeds
+DELETE FROM chefs;
+DELETE FROM recipes;
+DELETE FROM files;
+DELETE FROM recipe_files;
+DELETE FROM users;
+
+-- restart sequence auto_increment from tables ids
+ALTER SEQUENCE chefs_id_seq RESTART WITH 1;
+ALTER SEQUENCE files_id_seq RESTART WITH 1;
+ALTER SEQUENCE recipe_files_id_seq RESTART WITH 1;
+ALTER SEQUENCE recipes_id_seq RESTART WITH 1;
+ALTER SEQUENCE users_id_seq RESTART WITH 1;

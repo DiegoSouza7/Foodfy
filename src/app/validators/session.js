@@ -23,7 +23,6 @@ module.exports = {
      next()
     },
     async reset(req, res, next) {
-
         // procurar o usuário
         
         const { email, password, token, passwordRepeat } = req.body

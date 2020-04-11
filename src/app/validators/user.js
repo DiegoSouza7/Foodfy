@@ -4,21 +4,26 @@ const User = require('../models/users')
 module.exports = {
     async update(req, res, next) {
         const id = req.session.userId
-        const { password } = req.body
+        const { password, name, email } = req.body
 
-        if (!password) return res.render("user/index", {
-            user: req.body,
-            error: "Coloque sua senha para atualizar seu cadastro."
-        })
+        if((name == '') || (email == '')) {
+            req.session.error = 'Os campos nome e e-mail não podem estar vazios'
+            return res.redirect(`/adm/user`)
+        }
+
+        if (!password) {
+            req.session.error = "Coloque sua senha para atualizar seu cadastro."
+            return res.redirect(`/adm/user`)
+        }
 
         const user = await User.findOne({ where: {id} })
         
         const passed = await compare(password, user.password)
 
-        if(!passed) return res.render("user/index", {
-            user: req.body,
-            error: "Senha incorreta."
-        })
+        if(!passed) {
+            req.session.error = "Senha incorreta"
+            return res.redirect(`/adm/user`)
+        }
 
         req.user = user
 

@@ -5,7 +5,12 @@ const User = require('../models/users')
 
 module.exports = {
     loginForm(req, res) {
-        return res.render('session/login')
+        const success = req.session.success
+        if(success) {
+            delete req.session.success
+        }
+
+        return res.render('session/login', {success})
     },
     login(req, res) {
         req.session.userId = req.user.id
@@ -55,9 +60,9 @@ module.exports = {
 
             // avisar o usuario que enviamos o email
 
-            return res.render('session/forgot-password', {
-            success: "Verifique seu email para resetar sua senha!"
-        })
+            req.session.success = "Verifique seu email para resetar sua senha!"
+
+            return res.redirect('/adm/login')
         }catch (err) {
             console.error(err)
             return res.render('session/forgot-password', {
@@ -81,12 +86,11 @@ module.exports = {
                 reset_token_expires: ''
             })
 
-            // avisa o usuário que ele tem uma nova senha 
+            // avisa o usuário que ele tem uma nova senha
+            
+            req.session.success = 'Senha atualizada! Faça o seu login'
 
-            return res.render('session/login', {
-                user: req.body,
-                success: 'Senha atualizada! Faça o seu login'
-            })
+            return res.redirect('/adm/login')
 
 
         }catch(err) {

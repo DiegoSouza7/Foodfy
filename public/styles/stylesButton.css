@@ -48,3 +48,8 @@
 .buttonCenter {
     text-align: center;
 }
+
+button.remove {
+    background-color: rgb(160, 30, 30);
+    margin-right: 10px;
+}
