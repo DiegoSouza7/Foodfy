@@ -69,7 +69,7 @@ async function createChefs() {
 
         file.push({
             name: faker.image.image(),
-            path: `public/images/chefPlaceholder.png`,
+            path: `https://source.unsplash.com/collection/2013520/640x480`,
         })
         
         file = await File.create(file[0])
@@ -109,7 +109,7 @@ async function createRecipes() {
         while(files.length < 3) {
             files.push({
                 name: faker.image.image(),
-                path: `public/images/placeholder.png`,
+                path: `https://source.unsplash.com/collection/2013520/640x480`,
             })
         }
 

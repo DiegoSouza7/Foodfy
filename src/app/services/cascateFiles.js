@@ -8,11 +8,11 @@ module.exports = {
         try {
             const image = await File.findOne({where: {id}})
             const recipeFile = await RecipeFile.findOne({where: {file_id: id}})
-    
-            unlinkSync(image.path)
-    
+            
             File.delete(id)
             if(recipeFile) RecipeFile.delete(recipeFile.id)
+            
+            unlinkSync(image.path)
         } catch (error) {
             console.error(error)
         }

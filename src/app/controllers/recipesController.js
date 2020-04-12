@@ -115,8 +115,20 @@ module.exports = {
     },
     async put(req, res) {
         try {
+            let totalRemoved = (req.body.removed_files.split(',')).length - 1
+            let total = await RecipeFile.findAll({where: {recipe_id: req.body.id}})
+            total = total.length
+
+            if((req.files.length + total) - (totalRemoved) == 0) {
+                req.session.error = 'Envie pelo menos uma imagem'
+                return res.redirect(`/adm/${req.body.id}/edit`)
+            }
 
             if(req.files.length != 0) {
+                if((req.files.length + total) - (totalRemoved) > 5) {
+                    req.session.error = 'Só é possível enviar até 5 imagens'
+                    return res.redirect(`/adm/${req.body.id}/edit`)
+                }
                 await CascateFiles.createFilesAndConstraing(req.files, req.body.id)
             }
             
@@ -129,7 +141,7 @@ module.exports = {
                 
                 await Promise.all(removedFilesPromise)
             }
-            
+
             let { id, title, autor, ingredients, preparation, information } = req.body
             if (typeof ingredients == "string") ingredients = [ingredients]
             if (typeof preparation == "string") preparation = [preparation]

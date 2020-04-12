@@ -377,6 +377,18 @@ const Validate = {
     }
 }
 
+//delete form
+     
+const formDelete = document.querySelector('#form-delete')
+if(formDelete) {
+    formDelete.addEventListener('submit', function(event) {
+        const confirmation = confirm('Deseja Deletar?')
+        if (!confirmation) {
+            event.preventDefault()
+        }
+    })
+}
+
 // inserir templateColumns no preview
 
 
