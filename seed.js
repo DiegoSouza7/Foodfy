@@ -44,7 +44,7 @@ async function createUserAdm() {
     while (users.length < totalUserAdm) {
         users.push({
             name: faker.name.firstName(),
-            email: faker.internet.email(),
+            email: 'adm@adm.com',
             password,
             reset_token: '',
             reset_token_expires: '',
