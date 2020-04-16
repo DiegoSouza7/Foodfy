@@ -96,6 +96,13 @@ module.exports = {
 
             const chef_id = autor
 
+            if(!ingredients[ingredients.length - 1]) {
+                ingredients.pop()
+            }
+            if(!preparation[preparation.length - 1]) {
+                preparation.pop()
+            }
+
             const receita = await Receita.create({
                 title, 
                 chef_id, 
@@ -147,6 +154,13 @@ module.exports = {
             if (typeof preparation == "string") preparation = [preparation]
 
             const chef_id = autor
+
+            if(!ingredients[ingredients.length - 1]) {
+                ingredients.pop()
+            }
+            if(!preparation[preparation.length - 1]) {
+                preparation.pop()
+            }
 
             await Receita.update(id, {
                 title, 
