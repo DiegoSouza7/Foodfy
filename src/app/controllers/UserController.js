@@ -157,16 +157,14 @@ module.exports = {
             let user = req.body
 
             if((req.session.userId == id) && !is_admin) {
-                return res.render('user/edit', {
-                user,
-                error: "Você não pode remover essa função de sua conta!"
-            })}
+                req.session.error = "Você não pode remover essa função de sua conta!"
+                return res.redirect(`/adm/users/${id}`)
+            }
             
             if((email != result.email) || !result) {
-                return res.render('user/edit', {
-                    user,
-                    error: "Você não pode alterar o e-mail de sua conta!"
-                })
+                req.session.error = "Você não pode alterar o e-mail de sua conta!"
+                
+                return res.redirect(`/adm/users/${id}`)
             }
     
             if (is_admin) {

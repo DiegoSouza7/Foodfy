@@ -92,8 +92,8 @@ async function createRecipes() {
         recipes.push({
             chef_id: chefsId[Math.floor(Math.random() * totalChefs)],
             title: faker.name.title(),
-            ingredients: [faker.name.title()],
-            preparation: [faker.name.title()],
+            ingredients: [faker.name.title(), faker.name.title(), faker.name.title()],
+            preparation: [faker.name.title(), faker.name.title(), faker.name.title()],
             information: faker.lorem.paragraph(Math.ceil(Math.random() * 10))
         })
     }

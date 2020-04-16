@@ -379,14 +379,16 @@ const Validate = {
 
 //delete form
      
-const formDelete = document.querySelector('#form-delete')
+const formDelete = document.querySelectorAll('#form-delete')
 if(formDelete) {
-    formDelete.addEventListener('submit', function(event) {
-        const confirmation = confirm('Deseja Deletar?')
-        if (!confirmation) {
-            event.preventDefault()
-        }
-    })
+    for(Delete of formDelete) {
+        Delete.addEventListener('submit', function(event) {
+            const confirmation = confirm('Deseja Deletar?')
+            if (!confirmation) {
+                event.preventDefault()
+            }
+        })
+    }
 }
 
 // inserir templateColumns no preview
