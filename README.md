@@ -1,6 +1,8 @@
 # Foodfy
 Projeto de estudo do curso Launchbase da Rocketseat em desenvolvimento
 
+![Foodfy](https://github.com/DiegoSouza7/Foodfy/blob/master/Foodfy.png)
+
 # Banco de dados utilizado:
 :elephant: PostgreSQL
 
