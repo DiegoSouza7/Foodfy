@@ -1,14 +1,17 @@
 const db = require('../../config/db')
 const Base = require('./Base')
 
-Base.init({ table: 'chefs' })
+Base.init({table: 'chefs'})
 
 module.exports = {
-    ...Base,
-    async paginate(params) {
-        const {limit, offset} = params
+	...Base,
+	async paginate(params) {
+		const {
+			limit,
+			offset
+		} = params
 
-        const query = `
+		const query = `
         SELECT chefs.*, files.path, COUNT(recipes) AS total,
         (SELECT COUNT (*) FROM chefs) AS totalchefs
         FROM chefs LEFT JOIN files ON (chefs.file_id = files.id)
@@ -17,8 +20,8 @@ module.exports = {
         LIMIT ${limit} OFFSET ${offset}
         `
 
-        const results = await db.query(query)
-        
-        return results.rows
-    }
+		const results = await db.query(query)
+
+		return results.rows
+	}
 }

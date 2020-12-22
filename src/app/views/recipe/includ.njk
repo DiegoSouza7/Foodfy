@@ -1,97 +1,97 @@
 <div class="item">
-        <div>Fotos</div>
-        <div class="photos">
-            <div id="photos-upload">
-                <input 
-                    id="photos-input"
-                    type="file" 
-                    name="photos"
-                    accept="image/*"
-                    multiple
-                    onchange="PhotosUpload.handleFileInput(event)"
+		<div>Fotos</div>
+		<div class="photos">
+			<div id="photos-upload">
+				<input 
+					id="photos-input"
+					type="file" 
+					name="photos"
+					accept="image/*"
+					multiple
+					onchange="PhotosUpload.handleFileInput(event)"
 
-                >
-                <i class="material-icons">add</i>
-            </div>
-            <div id="photos-preview">
-                {% if files %}
-                    {% for image in files %}
-                        <div class="photo" id="{{image.id}}">
-                            <img src="{{image.src}}" alt="{{image.name}}">
-                            <i class="material-icons"
-                                onclick="PhotosUpload.removeOldPhoto(event)"
-                            >
-                                close
-                            </i>
-                        </div>
-                    {% endfor %}
-                    <input type="hidden" name="removed_files">
-                {% endif %}
-            </div>
-        </div>
-    </div>
+				>
+				<i class="material-icons">add</i>
+			</div>
+			<div id="photos-preview">
+				{% if files %}
+					{% for image in files %}
+						<div class="photo" id="{{image.id}}">
+							<img src="{{image.src}}" alt="{{image.name}}">
+							<i class="material-icons"
+								onclick="PhotosUpload.removeOldPhoto(event)"
+							>
+								close
+							</i>
+						</div>
+					{% endfor %}
+					<input type="hidden" name="removed_files">
+				{% endif %}
+			</div>
+		</div>
+	</div>
 <div class="item">
-    <div>Nome da Receita</div>
-    <div>
-        <input
-            type="text"
-            name="title"
-            value= "{{receita.title}}"
-        >
-    </div>
+	<div>Nome da Receita</div>
+	<div>
+		<input
+			type="text"
+			name="title"
+			value= "{{receita.title}}"
+		>
+	</div>
 </div>
 
 <div class="item">
-    <div>Autor</div>
-        <div>
-            <select name="autor">
-                {% for chef in chefOptions %}
-                <option value="{{chef.id}}"{% if receita.chef_id == chef.id %}selected {% endif %}>
-                    {{chef.name}}
-                </option>
-                {% endfor %}
-            </select>
-        </div>
-    </div>
+	<div>Autor</div>
+		<div>
+			<select name="autor">
+				{% for chef in chefOptions %}
+				<option value="{{chef.id}}"{% if receita.chef_id == chef.id %}selected {% endif %}>
+					{{chef.name}}
+				</option>
+				{% endfor %}
+			</select>
+		</div>
+	</div>
 
 <div id="ingredients">
 <div>Ingredientes</div>
-    {% for ingredient in receita.ingredients %}
-    <div class="ingredient">
-        <input
-            type="text"
-            name="ingredients"
-            value= "{{ingredient}}"
-            placeholder="Ingrediente"
-        >
-    </div>
-    {% endfor %}
+	{% for ingredient in receita.ingredients %}
+	<div class="ingredient">
+		<input
+			type="text"
+			name="ingredients"
+			value= "{{ingredient}}"
+			placeholder="Ingrediente"
+		>
+	</div>
+	{% endfor %}
 </div>
 <button type="button" class="add-ingredient">Add Ingrediente</button>
 <button type="button" class="remove-ingredient">Remover Último Ingrediente</button>
 
 <div id="preparation">
 <div>Modo de Preparo</div>
-    {% for passo in receita.preparation %}
-    <div class="prepara">
-        <input
-            type="text"
-            name="preparation"
-            value= "{{passo}}"
-            placeholder="Passo"
-        >
-    </div>
-    {% endfor %}
+	{% for passo in receita.preparation %}
+	<div class="prepara">
+		<input
+			type="text"
+			name="preparation"
+			value= "{{passo}}"
+			placeholder="Passo"
+		>
+	</div>
+	{% endfor %}
 </div>
 <button type="button" class="add-prepara">Add Preparação</button>
 <button type="button" class="remove-prepara">Remover Última Preparação</button>
 
 <div class="item">
-    <div>Informações adicionais</div>
-        <div>
-            <textarea name="information">{{receita.information}}</textarea>
-        </div>
-    </div>
+	<div>Informações adicionais</div>
+		<div>
+			<textarea name="information">{{receita.information}}</textarea>
+		</div>
+	</div>
 </div>
 
 <script>

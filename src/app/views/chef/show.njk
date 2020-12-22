@@ -3,34 +3,34 @@
 {% block content2 %}
 
 <div class="chefShow">
-    <h2>Chef: {{chef.name}}</h2>
-    <div class="buttonChef">
-        <a href="/adm/chefs/{{chef.id}}/edit" class="editar">Editar Chef</a>
-    </div>
+	<h2>Chef: {{chef.name}}</h2>
+	<div class="buttonChef">
+		<a href="/adm/chefs/{{chef.id}}/edit" class="editar">Editar Chef</a>
+	</div>
 </div>
 
 <div class="chefImg">
-    <img src="{{chef.path}}" alt="imagem de {{chef.name}}">
-    <h2>{{chef.name}}</h2>
-    <p>{{chef.total}} Receitas</p>
+	<img src="{{chef.path}}" alt="imagem de {{chef.name}}">
+	<h2>{{chef.name}}</h2>
+	<p>{{chef.total}} Receitas</p>
 </div>
 <div class="receitasdosChefs">
-    <h2>Receitas</h2>
+	<h2>Receitas</h2>
 </div>
 
 <section class="editAdm">
-    {% for receita in receitas %}
-        <div class="editReceita" id="{{receita.id}}">
-            <div class="img-pratoAdm">
-                <img src="{{receita.file}}" alt="{{receita.title}}">
-            </div>
-            <div class="prato-autorAdm">
-                <p class="prato">{{receita.title}}</p>
-                <p class="autor">Por {{receita.autor}}</p>
-                <a href="/adm/{{ receita.id }}" class="linkVisualizar">Visualizar</a>
-            </div>
-        </div>
-    {% endfor %}
+	{% for receita in receitas %}
+		<div class="editReceita" id="{{receita.id}}">
+			<div class="img-pratoAdm">
+				<img src="{{receita.file}}" alt="{{receita.title}}">
+			</div>
+			<div class="prato-autorAdm">
+				<p class="prato">{{receita.title}}</p>
+				<p class="autor">Por {{receita.autor}}</p>
+				<a href="/adm/{{ receita.id }}" class="linkVisualizar">Visualizar</a>
+			</div>
+		</div>
+	{% endfor %}
 </section>
 
 

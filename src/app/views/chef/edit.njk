@@ -2,37 +2,31 @@
 
 {% block content2 %}
 
-<form id="form-delete" action="/adm/chefs?_method=DELETE" method="post">
-</form>
+	<form id="form-delete" action="/adm/chefs?_method=DELETE" method="post"></form>
 
-<form action="/adm/chefs?_method=PUT" method="post">
-<div class="controllerAdm">
-    <div class="h2Controller">
-        <h2>Editar Chef</h2>
-    </div>
+	<form action="/adm/chefs?_method=PUT" method="post">
+		<div class="controllerAdm">
+			<div class="h2Controller">
+				<h2>Editar Chef</h2>
+			</div>
 
-    <div class="button">
-        <input form="form-delete" type="hidden" name="id" value="{{chef.id}}">
-        <button class="remove" type="submit" form="form-delete">Remover</button>
-        <input type="hidden" name="id" value="{{chef.id}}">
-        <button type="submit">Salvar</button>
-    </div>
-</div>
+			<div class="button">
+				<input form="form-delete" type="hidden" name="id" value="{{chef.id}}">
+				<button class="remove" type="submit" form="form-delete">Remover</button>
+				<input type="hidden" name="id" value="{{chef.id}}">
+				<button type="submit">Salvar</button>
+			</div>
+		</div>
 
+		<section class="formularioChef">
 
-<section class="formularioChef">
-      
-        <div class="item">
-            <div>Nome do Chef</div>
-            <div>
-                <input
-                    type="text"
-                    name="name"
-                    value= "{{chef.name}}"
-                >
-            </div>
-        </div>
-    </form>
-</section>
+			<div class="item">
+				<div>Nome do Chef</div>
+				<div>
+					<input type="text" name="name" value="{{chef.name}}">
+				</div>
+			</div>
+		</form>
+	</section>
 
 {% endblock %}

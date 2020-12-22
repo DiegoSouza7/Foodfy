@@ -2,9 +2,9 @@
 
 {% block link %}
 <div class="gridlinks">
-    <a class="links" href="/sobre">Sobre</a>
-    <a class="links" href="/receitas">Receitas</a>
-    <a class="links pag" href="/chefs">Chefs</a>
+	<a class="links" href="/sobre">Sobre</a>
+	<a class="links" href="/receitas">Receitas</a>
+	<a class="links pag" href="/chefs">Chefs</a>
 </div>
 {% endblock %}
 
@@ -15,13 +15,13 @@
 {% for chef in chefs %}
 
 <div class="amostraChefs" id="{{chef.id}}">
-    <div class="img-fotoChef">
-        <img src="{{chef.path}}" alt="imagem de {{chef.name}}">
-    </div>
-    <div class="dados-chef">
-        <p class="nomeDoChef">{{chef.name}}</p>
-        <p class="totalReceitas">{{chef.total}} Receitas</p>
-    </div>
+	<div class="img-fotoChef">
+		<img src="{{chef.path}}" alt="imagem de {{chef.name}}">
+	</div>
+	<div class="dados-chef">
+		<p class="nomeDoChef">{{chef.name}}</p>
+		<p class="totalReceitas">{{chef.total}} Receitas</p>
+	</div>
 </div>
 {% endfor %}
 

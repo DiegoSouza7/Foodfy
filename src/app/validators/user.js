@@ -1,50 +1,62 @@
-const { compare } = require('bcryptjs')
+const {compare} = require('bcryptjs')
 const User = require('../models/users')
 
 module.exports = {
-    async update(req, res, next) {
-        const id = req.session.userId
-        const { password, name, email } = req.body
+	async update(req, res, next) {
+		const id = req.session.userId
+		const {
+			password,
+			name,
+			email
+		} = req.body
 
-        if((name == '') || (email == '')) {
-            req.session.error = 'Os campos nome e e-mail não podem estar vazios'
-            return res.redirect(`/adm/user`)
-        }
+		if ((name == '') || (email == '')) {
+			req.session.error = 'Os campos nome e e-mail não podem estar vazios'
+			return res.redirect(`/adm/user`)
+		}
 
-        if (!password) {
-            req.session.error = "Coloque sua senha para atualizar seu cadastro."
-            return res.redirect(`/adm/user`)
-        }
+		if (!password) {
+			req.session.error = "Coloque sua senha para atualizar seu cadastro."
+			return res.redirect(`/adm/user`)
+		}
 
-        const user = await User.findOne({ where: {id} })
-        
-        const passed = await compare(password, user.password)
+		const user = await User.findOne({
+			where: {
+				id
+			}
+		})
 
-        if(!passed) {
-            req.session.error = "Senha incorreta"
-            return res.redirect(`/adm/user`)
-        }
+		const passed = await compare(password, user.password)
 
-        req.user = user
+		if (!passed) {
+			req.session.error = "Senha incorreta"
+			return res.redirect(`/adm/user`)
+		}
 
-        next()
-    },
-    async adm(req, res, next) {
-        const id = req.session.userId
+		req.user = user
 
-        let user = await User.findOne({where: {id}})
+		next()
+	},
+	async adm(req, res, next) {
+		const id = req.session.userId
 
-        if(user.is_admin == true) {
-            user = {
-                adm: ''
-            }
-        } else {
-            user = {
-                adm: user.id
-            }
-        }
-        req.user = user        
+		let user = await User.findOne({
+			where: {
+				id
+			}
+		})
 
-        next()
-    }
+		if (user.is_admin == true) {
+			user = {
+				adm: ''
+			}
+		} else {
+			user = {
+				adm: user.id
+			}
+		}
+		req.user = user
+
+		next()
+	}
 }

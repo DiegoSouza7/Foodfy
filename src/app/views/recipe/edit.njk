@@ -8,21 +8,21 @@
 <form action="/adm/create?_method=PUT" method="post" enctype="multipart/form-data">
 
 <div class="controllerAdm">
-    <div class="h2Controller">
-        <h2>Editar Receita</h2>
-    </div>
+	<div class="h2Controller">
+		<h2>Editar Receita</h2>
+	</div>
 
-    <div class="button">
-        <input form="form-delete" type="hidden" name="id" value="{{receita.id}}"/>
-        <button class="remove" type="submit" form="form-delete">Remover</button>
-        <input type="hidden" name="id" value="{{receita.id}}">
-        <button type="submit">Salvar</button>
-    </div>
+	<div class="button">
+		<input form="form-delete" type="hidden" name="id" value="{{receita.id}}"/>
+		<button class="remove" type="submit" form="form-delete">Remover</button>
+		<input type="hidden" name="id" value="{{receita.id}}">
+		<button type="submit">Salvar</button>
+	</div>
 </div>
 
 <section class="formularioReceita">
 
-    {% include 'recipe/includ.njk' %}
+	{% include 'recipe/includ.njk' %}
 
 </section>
 </form>

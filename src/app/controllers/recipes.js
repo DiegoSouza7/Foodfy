@@ -5,170 +5,220 @@ const File = require('../models/File')
 const GetImage = require('../services/getImage')
 
 module.exports = {
-    async index(req, res) {
-        try {
-            let { page, limit } = req.query
+	async index(req, res) {
+		try {
+			let {
+				page,
+				limit
+			} = req.query
 
-            page = page || 1
-            limit = limit || 6
-            let offset = limit * (page - 1)
-                orderby = 'recipes.created_at DESC'
+			page = page || 1
+			limit = limit || 6
+			let offset = limit * (page - 1)
+			orderby = 'recipes.created_at DESC'
 
-            const params = {
-                orderby,
-                limit,
-                offset
-            }
-                       
-            let receitas = await Receita.paginate(params)
+			const params = {
+				orderby,
+				limit,
+				offset
+			}
 
-            const receitasPromise = receitas.map(async recipe => {
-                recipe.file = await GetImage.getImage(recipe.id)
-                return recipe
-            })
+			let receitas = await Receita.paginate(params)
 
-            receitas = await Promise.all(receitasPromise)
+			const receitasPromise = receitas.map(async recipe => {
+				recipe.file = await GetImage.getImage(recipe.id)
+				return recipe
+			})
 
-            return res.render('client/index', {receitas})
+			receitas = await Promise.all(receitasPromise)
 
-        }catch(err) {
-            console.error(err)
-        }
-    },
-    async receitas(req, res) {
-        try {
-            let { page, limit, filter } = req.query            
-            
-            page = page || 1
-            limit = limit || 14
-            
-            let offset = limit * (page - 1)
-                orderby = 'recipes.created_at DESC'
+			return res.render('client/index', {
+				receitas
+			})
 
-            const params = {
-                filter,
-                orderby,
-                limit,
-                offset
-            }
-                       
-            let receitas = await Receita.paginate(params)
+		} catch (err) {
+			console.error(err)
+		}
+	},
+	async receitas(req, res) {
+		try {
+			let {
+				page,
+				limit,
+				filter
+			} = req.query
 
-            const receitasPromise = receitas.map(async recipe => {
-                recipe.file = await GetImage.getImage(recipe.id)
-                return recipe
-            })
+			page = page || 1
+			limit = limit || 14
 
-            receitas = await Promise.all(receitasPromise)
-            
-            if (receitas.length == 0) {
-                return res.render('client/receitas', { filter })
-            } else {
-                const pagination = {
-                    total: Math.ceil(receitas[0].total / limit),
-                    page
-                }
+			let offset = limit * (page - 1)
+			orderby = 'recipes.created_at DESC'
 
-                return res.render('client/receitas', {receitas, pagination, filter})
-            }
+			const params = {
+				filter,
+				orderby,
+				limit,
+				offset
+			}
 
-        }catch(err) {
-            console.error(err)
-        }
-    },
-    sobre(req, res) {
-        try {
-            return res.render('client/sobre')
-        }catch(err) {
-            console.error(err)
-        }
-    },
-    async receita(req, res) {
-        try {          
-            let receita = await Receita.findOne({where: {id: req.params.id}})
+			let receitas = await Receita.paginate(params)
 
-            const autor = await Chef.findOne({where: {id: receita.chef_id}}, 'chefs.name')
-            receita.autor = autor.name
-            
-            if(!receita) return res.send('receita not found!')
-                        
-            receita.file = await GetImage.getImages(receita.id)
+			const receitasPromise = receitas.map(async recipe => {
+				recipe.file = await GetImage.getImage(recipe.id)
+				return recipe
+			})
 
-            return res.render('client/receita', {receita})
-        
-        }catch(err) {
-            console.error(err)
-        }
-    },
-    async chefs(req, res) {
-        try {
-            let params = {},
-                { page, limit } = req.query
-    
-            page = page || 1
-            limit = limit || 10
-            let offset = limit * (page - 1)
-    
-            params = {
-                limit,
-                offset
-            }
+			receitas = await Promise.all(receitasPromise)
 
-            let chefs = await Chef.paginate(params)
-            
-            chefs = chefs.map(chef => ({
-                ...chef,
-                path: `${chef.path.replace('public', '')}`
-            }))
+			if (receitas.length == 0) {
+				return res.render('client/receitas', {
+					filter
+				})
+			} else {
+				const pagination = {
+					total: Math.ceil(receitas[0].total / limit),
+					page
+				}
 
-    
-            if(chefs.length == 0) {
-                return res.render('client/chefs')
-            } else{
-                const pagination = {
-                    total: Math.ceil(chefs[0].totalchefs / limit),
-                    page
-                }
+				return res.render('client/receitas', {
+					receitas,
+					pagination,
+					filter
+				})
+			}
 
-                return res.render('client/chefs', {chefs, pagination})
-            }
-        }catch(err) {
-            console.error(err)
-        }
-    },
-    async chefsShow(req, res) {
-        try {
+		} catch (err) {
+			console.error(err)
+		}
+	},
+	sobre(req, res) {
+		try {
+			return res.render('client/sobre')
+		} catch (err) {
+			console.error(err)
+		}
+	},
+	async receita(req, res) {
+		try {
+			let receita = await Receita.findOne({
+				where: {
+					id: req.params.id
+				}
+			})
 
-            let chef = await Chef.findOne({where: {id: req.params.id}})
+			const autor = await Chef.findOne({
+				where: {
+					id: receita.chef_id
+				}
+			}, 'chefs.name')
+			receita.autor = autor.name
 
-            if(!chef) return res.send('chef not found!')
+			if (!receita) return res.send('receita not found!')
 
-            const totalRecipes = await Receita.findAll({where: {chef_id: req.params.id}})
+			receita.file = await GetImage.getImages(receita.id)
 
-            const total = totalRecipes.length
+			return res.render('client/receita', {
+				receita
+			})
 
-            const imageChef = await File.findOne({where: {id: chef.file_id}})
+		} catch (err) {
+			console.error(err)
+		}
+	},
+	async chefs(req, res) {
+		try {
+			let params = {},
+				{
+					page,
+					limit
+				} = req.query
 
-            chef = {
-                ...chef,
-                total: total,
-                path: imageChef.path.replace('public', '')
-            }
-            
-            let receitas = await Receita.findAll({where: {chef_id: req.params.id}})
-            
-            const receitasPromise = receitas.map(async recipe => {
-                recipe.file = await GetImage.getImage(recipe.id)
-                recipe.autor = chef.name
-                return recipe
-            })
-            
-            receitas = await Promise.all(receitasPromise)
-            
-            return res.render('client/chefShow', {chef, receitas})
+			page = page || 1
+			limit = limit || 10
+			let offset = limit * (page - 1)
 
-        }catch(err) {
-            console.error(err)
-        }
-    }
+			params = {
+				limit,
+				offset
+			}
+
+			let chefs = await Chef.paginate(params)
+
+			chefs = chefs.map(chef => ({
+				...chef,
+				path: `${chef.path.replace('public', '')}`
+			}))
+
+
+			if (chefs.length == 0) {
+				return res.render('client/chefs')
+			} else {
+				const pagination = {
+					total: Math.ceil(chefs[0].totalchefs / limit),
+					page
+				}
+
+				return res.render('client/chefs', {
+					chefs,
+					pagination
+				})
+			}
+		} catch (err) {
+			console.error(err)
+		}
+	},
+	async chefsShow(req, res) {
+		try {
+
+			let chef = await Chef.findOne({
+				where: {
+					id: req.params.id
+				}
+			})
+
+			if (!chef) return res.send('chef not found!')
+
+			const totalRecipes = await Receita.findAll({
+				where: {
+					chef_id: req.params.id
+				}
+			})
+
+			const total = totalRecipes.length
+
+			const imageChef = await File.findOne({
+				where: {
+					id: chef.file_id
+				}
+			})
+
+			chef = {
+				...chef,
+				total: total,
+				path: imageChef.path.replace('public', '')
+			}
+
+			let receitas = await Receita.findAll({
+				where: {
+					chef_id: req.params.id
+				}
+			})
+
+			const receitasPromise = receitas.map(async recipe => {
+				recipe.file = await GetImage.getImage(recipe.id)
+				recipe.autor = chef.name
+				return recipe
+			})
+
+			receitas = await Promise.all(receitasPromise)
+
+			return res.render('client/chefShow', {
+				chef,
+				receitas
+			})
+
+		} catch (err) {
+			console.error(err)
+		}
+	}
 }

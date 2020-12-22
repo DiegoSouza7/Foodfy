@@ -2,38 +2,38 @@
 
 {% block link %}
 <div class="gridlinks">
-    <a class="links" href="/sobre">Sobre</a>
-    <a class="links pag" href="/receitas">Receitas</a>
-    <a class="links" href="/chefs">Chefs</a>
+	<a class="links" href="/sobre">Sobre</a>
+	<a class="links pag" href="/receitas">Receitas</a>
+	<a class="links" href="/chefs">Chefs</a>
 </div>
-    <form action="/receitas" method="get">
-        <input 
-            class="filter"
-            type="text"
-            name="filter"
-            placeholder="Nome da receita ou do chef"
-            value="{{filter}}"
-        >
-        <button type="submit">Filtrar</button>
-    </form>
+	<form action="/receitas" method="get">
+		<input 
+			class="filter"
+			type="text"
+			name="filter"
+			placeholder="Nome da receita ou do chef"
+			value="{{filter}}"
+		>
+		<button type="submit">Filtrar</button>
+	</form>
 {% endblock %}
 
 {% block content %}
 
 <div class="buscandoPor">
-    <h2>Buscando por "{{filter}}"</h2>
-    <h2 class="ReceitaNot">Nenhuma receita encontrada</h2>
+	<h2>Buscando por "{{filter}}"</h2>
+	<h2 class="ReceitaNot">Nenhuma receita encontrada</h2>
 </div>
 
 <section class="menu">
 </section>
 
 <div class="centralizar">
-    <div class="pagination"
-    data-page={{pagination.page}}
-    data-total={{pagination.total}}
-    data-filter={{filter}}
-    ></div>
+	<div class="pagination"
+	data-page={{pagination.page}}
+	data-total={{pagination.total}}
+	data-filter={{filter}}
+	></div>
 </div>
-    
+	
 {% endblock %}

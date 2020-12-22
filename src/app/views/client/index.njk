@@ -2,69 +2,69 @@
 
 {% block link %}
 <div class="gridlinks">
-    <a class="links" href="/sobre">Sobre</a>
-    <a class="links" href="/receitas">Receitas</a>
-    <a class="links" href="/chefs">Chefs</a>
+	<a class="links" href="/sobre">Sobre</a>
+	<a class="links" href="/receitas">Receitas</a>
+	<a class="links" href="/chefs">Chefs</a>
 </div>
 
 
 <nav class="primary">
-    <ul>
-        <li class='accounts'>
-            <a href="/adm/login">
-                <i class="material-icons">account_circle</i>
-                Minha conta
-            </a>
-            {% if session.userId %}
-            <ul class="submenu">
-                <li>
-                    <a href="/adm/user">Minha conta</a>
-                </li>
-                <li>
-                    <a href="/adm">Gerenciar Receitas</a>
-                </li>
-                <li>
-                    <form action="/adm/logout" method="post">
-                        <button>Sair</button>
-                    </form>
-                </li>
-            </ul>
-            {% endif %}
-        </li>
-    </ul>
+	<ul>
+		<li class='accounts'>
+			<a href="/adm/login">
+				<i class="material-icons">account_circle</i>
+				Minha conta
+			</a>
+			{% if session.userId %}
+			<ul class="submenu">
+				<li>
+					<a href="/adm/user">Minha conta</a>
+				</li>
+				<li>
+					<a href="/adm">Gerenciar Receitas</a>
+				</li>
+				<li>
+					<form action="/adm/logout" method="post">
+						<button>Sair</button>
+					</form>
+				</li>
+			</ul>
+			{% endif %}
+		</li>
+	</ul>
 </nav>
 
 {% endblock %}
 
 {% block content %}
-        <section class="intro">
-            <div class="textIntro">
-                <div class="h1Asmelhores">
-                    <h1>As Melhores receitas</h1>
-                </div>
-                <div class="pAsmelhores">
-                    <p class="descri">Aprenda a contruir os melhores pratos 
-                    com receitas criadas por proficionais do mundo inteiro.</p>
-                </div>
-            </div>
-            <div>
-                <img class="chef" src="/imagens/chef.png" alt="chef">
-            </div>
-        </section>
+		<section class="intro">
+			<div class="textIntro">
+				<div class="h1Asmelhores">
+					<h1>As Melhores receitas</h1>
+				</div>
+				<div class="pAsmelhores">
+					<p class="descri">Aprenda a contruir os melhores pratos 
+					com receitas criadas por proficionais do mundo inteiro.</p>
+				</div>
+			</div>
+			<div>
+				<img class="chef" src="/imagens/chef.png" alt="chef">
+			</div>
+		</section>
 
-        <h2 class="h2MaisAcess">Últimas Receitas</h2>
-    
-        <section class="acess">
-        {% for receita in receitas %}
-            <div class="receita" id="{{receita.id}}">
-                <div class="img-prato">
-                    <img src="{{receita.file}}" alt="imagem de {{receita.title}}">
-                </div>
-                <div class="prato-autor">
-                    <p class="prato">{{receita.title}}</p>
-                    <p class="autor">Por {{receita.autor}}</p>
-                </div>
-            </div>
-        {% endfor %}
-        </section>
+		<h2 class="h2MaisAcess">Últimas Receitas</h2>
+	
+		<section class="acess">
+		{% for receita in receitas %}
+			<div class="receita" id="{{receita.id}}">
+				<div class="img-prato">
+					<img src="{{receita.file}}" alt="imagem de {{receita.title}}">
+				</div>
+				<div class="prato-autor">
+					<p class="prato">{{receita.title}}</p>
+					<p class="autor">Por {{receita.autor}}</p>
+				</div>
+			</div>
+		{% endfor %}
+		</section>
 {% endblock %}

@@ -2,29 +2,29 @@
 
 {% block content2 %}
 <div class="controllerAdm">
-    <div class="h2Controller">
-        <h2>Usuários</h2>
-    </div>
-    <div class="button">
-        <a href="/adm/users/create" id="novoUser">Novo</a>
-    </div>
+	<div class="h2Controller">
+		<h2>Usuários</h2>
+	</div>
+	<div class="button">
+		<a href="/adm/users/create" id="novoUser">Novo</a>
+	</div>
 </div>
 <section class="viewsUsers">
-    {% for user in users %}
-        <div class="user" id="{{user.id}}">
-            <div class="infoUser">
-                <p class="nameUser">{{user.name}}</p>
-                <p class="userEmail">{{user.email}}</p>
-            </div>
-            <div class="actionsUser">
-                <a class="editUser" href="/adm/users/{{user.id}}">Editar</a>
-                <form id="form-delete" action="/adm/users?_method=DELETE" method="post">
-                <input type="hidden" name="id" value="{{user.id}}">
-                    <button class="removeUser" type="submit">Remover</button>
-                </form>
-            </div>
-        </div>
-    {% endfor %}
+	{% for user in users %}
+		<div class="user" id="{{user.id}}">
+			<div class="infoUser">
+				<p class="nameUser">{{user.name}}</p>
+				<p class="userEmail">{{user.email}}</p>
+			</div>
+			<div class="actionsUser">
+				<a class="editUser" href="/adm/users/{{user.id}}">Editar</a>
+				<form id="form-delete" action="/adm/users?_method=DELETE" method="post">
+				<input type="hidden" name="id" value="{{user.id}}">
+					<button class="removeUser" type="submit">Remover</button>
+				</form>
+			</div>
+		</div>
+	{% endfor %}
 </section>
 
 {% endblock content2 %}

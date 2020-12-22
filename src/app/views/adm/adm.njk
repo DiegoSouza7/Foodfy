@@ -3,26 +3,26 @@
 {% block content2 %}
 
 <div class="controllerAdm">
-    <div class="h2Controller">
-        <h2>Gerenciar Receitas</h2>
-    </div>
-    <div class="button">
-        <a href="/adm/create" id="criarReceita">Criar Receita</a>
-    </div>
+	<div class="h2Controller">
+		<h2>Gerenciar Receitas</h2>
+	</div>
+	<div class="button">
+		<a href="/adm/create" id="criarReceita">Criar Receita</a>
+	</div>
 </div>
 
 <section class="editAdm">
-    {% for receita in receitas %}
-        <div class="editReceita" id="{{receita.id}}">
-            <div class="img-pratoAdm">
-                <img src="{{receita.file}}" alt="{{receita.title}}">
-            </div>
-            <div class="prato-autorAdm">
-                <p class="prato">{{receita.title}}</p>
-                <p class="autor">Por {{receita.autor}}</p>
-                <a href="/adm/{{ receita.id }}" class="linkVisualizar">Visualizar</a>
-            </div>
-        </div>
-    {% endfor %}
+	{% for receita in receitas %}
+		<div class="editReceita" id="{{receita.id}}">
+			<div class="img-pratoAdm">
+					<img src="{{receita.file}}" alt="{{receita.title}}">
+			</div>
+			<div class="prato-autorAdm">
+				<p class="prato">{{receita.title}}</p>
+				<p class="autor">Por {{receita.autor}}</p>
+				<a href="/adm/{{ receita.id }}" class="linkVisualizar">Visualizar</a>
+			</div>
+		</div>
+	{% endfor %}
 </section>
 {% endblock content2 %}

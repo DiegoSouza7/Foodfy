@@ -1,37 +1,37 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Foodfy</title>
-        {% include './parts/styles.njk' %}
-    </head>
-    <body>
-        {% include 'parts/messages.njk' %}
-        <header class="cabe2">
-            <div class="cabeçalho2">
-                <a href="/" class="cabAdm">Foodfy</a>
-                <a href="/adm" class="cablink">Receitas</a>
-                <a href="/adm/chefs" class="cablink">Chefs</a>
-                <a href="/adm/users" class="cablink">Usuários</a>
-                <form action="/adm/logout" method="post">
-                    <button>Sair</button>
-                </form>
-            </div>
-        </header>
+	<head>
+		<title>Foodfy</title>
+		{% include './parts/styles.njk' %}
+	</head>
+	<body>
+		{% include 'parts/messages.njk' %}
+		<header class="cabe2">
+			<div class="cabeçalho2">
+				<a href="/" class="cabAdm">Foodfy</a>
+				<a href="/adm" class="cablink">Receitas</a>
+				<a href="/adm/chefs" class="cablink">Chefs</a>
+				<a href="/adm/users" class="cablink">Usuários</a>
+				<form action="/adm/logout" method="post">
+					<button>Sair</button>
+				</form>
+			</div>
+		</header>
 
-        {% block content2 %}{% endblock %}
+		{% block content2 %}{% endblock %}
 
-        <div class="centralizar">
-            <div class="pagination"
-            data-page={{pagination.page}}
-            data-total={{pagination.total}}
-            data-filter={{filter}}
-            ></div>
-        </div>
+		<div class="centralizar">
+			<div class="pagination"
+			data-page={{pagination.page}}
+			data-total={{pagination.total}}
+			data-filter={{filter}}
+			></div>
+		</div>
 
-        <footer>
-            <h3>Todos direitos reservados, receitas Foodfy.</h3>
-        </footer>
-        <script src="/script.js"></script>
+		<footer>
+			<h3>Todos direitos reservados, receitas Foodfy.</h3>
+		</footer>
+		<script src="/script.js"></script>
 
-    </body>
+	</body>
 </html>

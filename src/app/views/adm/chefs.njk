@@ -3,25 +3,25 @@
 {% block content2 %}
 
 <div class="controllerAdm">
-    <div class="h2Controller">
-        <h2>Gerenciar Chefs</h2>
-    </div>
-    <div class="button">
-        <a href="/adm/chefs/create" id="criarChef">Criar Chef</a>
-    </div>
+	<div class="h2Controller">
+		<h2>Gerenciar Chefs</h2>
+	</div>
+	<div class="button">
+		<a href="/adm/chefs/create" id="criarChef">Criar Chef</a>
+	</div>
 </div>
 
 <section class="editAdm">
-    {% for chef in chefs %}
-        <div class="editChef" id="{{chef.id}}">
-            <div class="img-fotoChef">
-                <img src="{{chef.path}}" alt="{{chef.name}}">
-            </div>
-            <div class="dados-chef">
-                <p class="nomeDoChef">{{chef.name}}</p>
-                <a href="/adm/chefs/{{ chef.id }}">Visualizar</a>
-            </div>
-        </div>
-    {% endfor %}
+	{% for chef in chefs %}
+		<div class="editChef" id="{{chef.id}}">
+			<div class="img-fotoChef">
+				<img src="{{chef.path}}" alt="{{chef.name}}">
+			</div>
+			<div class="dados-chef">
+				<p class="nomeDoChef">{{chef.name}}</p>
+				<a href="/adm/chefs/{{ chef.id }}">Visualizar</a>
+			</div>
+		</div>
+	{% endfor %}
 </section>
 {% endblock %}

@@ -4,49 +4,49 @@
 
 <form action="/adm/user?_method=PUT" method="post">
 <div class="controllerAdm">
-    <div class="h2Controller">
-        <h2>Bem vindo {{user.name}}</h2>
-    </div>
+	<div class="h2Controller">
+		<h2>Bem vindo {{user.name}}</h2>
+	</div>
 
-    <div class="button">
-        <button type="submit">Salvar</button>
-    </div>
+	<div class="button">
+		<button type="submit">Salvar</button>
+	</div>
 </div>
 
 <section class="showUser">
-    <div class="item">
-        <div>Nome</div>
-        <div>
-            <input
-                type="text"
-                name="name"
-                placeholder="nome"
-                value= "{{user.name}}"
-            >
-        </div>
-    </div>
-    </div>
-    <div class="item">
-        <div>Email</div>
-        <div>
-            <input
-                type="email"
-                name="email"
-                placeholder="email"
-                value= "{{user.email}}"
-            >
-        </div>
-    </div>
-    <div class="item">
-        <div>Senha</div>
-        <div class="input">
-            <input
-                type="password"
-                name="password"
-                placeholder="Digite sua senha"
-            >
-        </div>
-    </div>
+	<div class="item">
+		<div>Nome</div>
+		<div>
+			<input
+				type="text"
+				name="name"
+				placeholder="nome"
+				value= "{{user.name}}"
+			>
+		</div>
+	</div>
+	</div>
+	<div class="item">
+		<div>Email</div>
+		<div>
+			<input
+				type="email"
+				name="email"
+				placeholder="email"
+				value= "{{user.email}}"
+			>
+		</div>
+	</div>
+	<div class="item">
+		<div>Senha</div>
+		<div class="input">
+			<input
+				type="password"
+				name="password"
+				placeholder="Digite sua senha"
+			>
+		</div>
+	</div>
 </section>
 
 </form>

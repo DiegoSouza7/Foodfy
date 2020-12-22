@@ -2,44 +2,44 @@
 
 {% block content3 %}
 
-    <section class="login container form">
-        <form method="POST" action="/adm/login">
+	<section class="login container form">
+		<form method="POST" action="/adm/login">
 
-            <div class="header">
-                <h2>Entrar</h2>
-            </div>
-                <div class="item">
-                    <div>Email</div>
-                    <div class="input">
-                        <input
-                            type="email"
-                            name="email"
-                            placeholder="Digite seu email"
-                            value="{{user.email}}"
-                            onblur="Validate.apply(this, 'isEmail')"
-                        >
-                    </div>
-                </div>
-                
-                <div class="item">
-                    <div>Senha</div>
-                    <div class="input">
-                        <input
-                            type="password"
-                            name="password"
-                            placeholder="Digite sua senha"
-                            required
-                        >
-                    </div>
-                </div>
+			<div class="header">
+				<h2>Entrar</h2>
+			</div>
+				<div class="item">
+					<div>Email</div>
+					<div class="input">
+						<input
+							type="email"
+							name="email"
+							placeholder="Digite seu email"
+							value="{{user.email}}"
+							onblur="Validate.apply(this, 'isEmail')"
+						>
+					</div>
+				</div>
+				
+				<div class="item">
+					<div>Senha</div>
+					<div class="input">
+						<input
+							type="password"
+							name="password"
+							placeholder="Digite sua senha"
+							required
+						>
+					</div>
+				</div>
 
-            <button class="button" type="submit">Entrar</button>
+			<button class="button" type="submit">Entrar</button>
 
-            <div class="footer">
-                <a href="/adm/user/forgot-password">Esqueci a senha</a>
-            </div>
-            
-        </form>
-    </section>
+			<div class="footer">
+				<a href="/adm/user/forgot-password">Esqueci a senha</a>
+			</div>
+			
+		</form>
+	</section>
 
 {% endblock content3 %}

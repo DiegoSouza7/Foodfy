@@ -5,8 +5,8 @@ const adm = require('./adm')
 const client = require('./client')
 
 // home
-routes.get('/', function(req, res) {
-    return res.redirect('/index')
+routes.get('/', function (req, res) {
+	return res.redirect('/index')
 })
 
 routes.use('/adm', adm)
